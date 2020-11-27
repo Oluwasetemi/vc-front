@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-await-in-loop */
-require('dotenv').config({ path: 'variables.env' });
+require('dotenv').config({path: 'variables.env'});
 const casual = require('casual');
 
 // import the models
@@ -8,8 +8,8 @@ const User = require('../models/user');
 const Hra = require('../models/hra');
 const Reward = require('../models/reward');
 // import helper methods
-const { hash } = require('../utils/auth');
-const { r, g, b, w, c, m, y, k } = require('../utils/color');
+const {hash} = require('../utils/auth');
+const {r, g, b, w, c, m, y, k} = require('../utils/color');
 const dbConnection = require('../db');
 
 let dbUrl = process.env.DATABASE_URL;

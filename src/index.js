@@ -1,8 +1,8 @@
-import createServer from "./createServer";
+import createServer from './createServer';
 
 (async () => {
   try {
-    const { httpServer, server } = await createServer();
+    const {httpServer, server} = await createServer();
 
     httpServer.listen(
       {

@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 /* eslint-disable class-methods-use-this */
-const { RESTDataSource } = require('apollo-datasource-rest');
+const {RESTDataSource} = require('apollo-datasource-rest');
 
 class WgerdotdeAPI extends RESTDataSource {
   constructor() {

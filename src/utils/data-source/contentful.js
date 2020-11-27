@@ -1,13 +1,11 @@
 /* eslint-disable camelcase */
 /* eslint-disable class-methods-use-this */
-const { RESTDataSource } = require('apollo-datasource-rest');
+const {RESTDataSource} = require('apollo-datasource-rest');
 
 class ContentfulAPI extends RESTDataSource {
   constructor() {
     super();
-    this.baseURL = `https://cdn.contentful.com/spaces/${
-      process.env.CONTENTFUL_SPACE_ID
-    }`;
+    this.baseURL = `https://cdn.contentful.com/spaces/${process.env.CONTENTFUL_SPACE_ID}`;
   }
 
   willSendRequest(request) {

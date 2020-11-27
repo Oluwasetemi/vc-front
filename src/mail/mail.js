@@ -14,7 +14,7 @@ if (!process.env.SMTP_FROM_EMAIL && !process.env.SMTP_FROM_NAME) {
 
 const mailjet = require('node-mailjet').connect(
   process.env.MAILJET_API_KEY,
-  process.env.MAILJET_SECRET_KEY
+  process.env.MAILJET_SECRET_KEY,
 );
 
 const transport = nodemailer.createTransport({
@@ -22,14 +22,14 @@ const transport = nodemailer.createTransport({
   port: process.env.MAIL_PORT,
   auth: {
     user: process.env.MAIL_USER,
-    pass: process.env.MAIL_PASS
-  }
+    pass: process.env.MAIL_PASS,
+  },
 });
 
 const generateHTML = (filename, options = {}) => {
   const html = pug.renderFile(
     path.join(__dirname, `/templates/${filename}.pug`),
-    options
+    options,
   );
   const inlined = juice(html);
   return inlined;
@@ -48,7 +48,7 @@ const generateHTML = (filename, options = {}) => {
  * })
  * @returns {obj} result of sending mail and the message (mail content)
  */
-export send = async options => {
+export const send = async (options) => {
   try {
     const html = generateHTML(options.filename, options);
     const text = htmlToText.fromString(html);
@@ -56,26 +56,26 @@ export send = async options => {
     const mailOptions = {
       From: {
         Email: process.env.SMTP_FROM_EMAIL,
-        Name: process.env.SMTP_FROM_NAME
+        Name: process.env.SMTP_FROM_NAME,
       },
-      To: [{ Email: options.to, Name: 'APOLLO_SAMPLE_SERVER' }],
+      To: [{Email: options.to, Name: 'APOLLO_SAMPLE_SERVER'}],
       Subject: options.subject || 'MAIL_SUBJECT',
       TextPart: text,
-      HTMLPart: html
+      HTMLPart: html,
     };
 
     const result = await mailjet
-      .post('send', { version: 'v3.1' })
-      .request({ Messages: [mailOptions] });
+      .post('send', {version: 'v3.1'})
+      .request({Messages: [mailOptions]});
 
-    return { result, message: text };
+    return {result, message: text};
   } catch (error) {
     console.log(error.message);
     throw new Error('problem sending email📪');
   }
 };
 
-export const makeANiceEmail = text => `
+export const makeANiceEmail = (text) => `
     <div class="email" styles="
         border: 1px solid black;
         padding: 20px;

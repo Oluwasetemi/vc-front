@@ -1,5 +1,5 @@
-require('dotenv').config({ path: 'variables.env' });
-const { send } = require('../mail');
+require('dotenv').config({path: 'variables.env'});
+const {send} = require('../mail');
 
 (async function sampleSend() {
   // send email to the new user
