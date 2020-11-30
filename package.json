@@ -14,13 +14,11 @@
     "email": "echo \"you must have pug-cli installed globally to convert all the pug template to html!NB Always change the templates/email-template-name\" && pug -w src/mail/templates/confirmed_email_subscriber.pug -o src/mail/html",
     "test:email": "node src/mail/templates/test-email.js",
     "lint": "eslint src/",
-    "precommit": "lint-staged"
-  },
-  "lint-staged": {
-    "src/**/*.{js,json}": [
-      "prettier --write",
-      "git add"
-    ]
+    "lint:fix": "eslint src/ --fix",
+    "prettier": "prettier \"src/**/*+(js|json|pug|graphql|css)\"",
+    "format": "npm run prettier -- --write",
+    "check-format": "npm run prettier -- --list-different",
+    "validate": "npm run check-format && npm run lint"
   },
   "keywords": [
     "graphql",
@@ -51,6 +49,7 @@
     "vfile-reporter": "^6.0.1"
   },
   "devDependencies": {
+    "@prettier/plugin-pug": "^1.12.0",
     "babel-eslint": "^10.1.0",
     "cross-env": "^7.0.2",
     "eslint": "^7.14.0",

@@ -8,6 +8,7 @@ class WgerdotdeAPI extends RESTDataSource {
     this.baseURL = `https://wger.de/api/v2`;
   }
 
+  // eslint-disable-next-line no-unused-vars
   willSendRequest(request) {
     // request.headers.set(
     //   'Authorization',
@@ -30,42 +31,42 @@ class WgerdotdeAPI extends RESTDataSource {
 
   async exerciseList(limit = 10, skip = 0) {
     const data = await this.get(
-      `/exercise?format=json&limit=${limit}&offset=${skip}&language=2&status=2`
+      `/exercise?format=json&limit=${limit}&offset=${skip}&language=2&status=2`,
     );
     return data;
   }
 
   async exerciseImageList(limit = 10, skip = 0) {
     const data = await this.get(
-      `/exerciseimage/?format=json&limit=${limit}&offset=${skip}&language=2&status=2`
+      `/exerciseimage/?format=json&limit=${limit}&offset=${skip}&language=2&status=2`,
     );
     return data;
   }
 
   async exerciseInfo(limit = 10, skip = 0) {
     const data = await this.get(
-      `/exerciseinfo/?format=json&limit=${limit}&offset=${skip}&language=2&status=2`
+      `/exerciseinfo/?format=json&limit=${limit}&offset=${skip}&language=2&status=2`,
     );
     return data;
   }
 
   async exerciseImage(id) {
     const data = await this.get(
-      `/exerciseimage/${id}?format=json&language=2&status=2`
+      `/exerciseimage/${id}?format=json&language=2&status=2`,
     );
     return data;
   }
 
   async exercise(id) {
     const data = await this.get(
-      `/exercise/${id}?format=json&language=2&status=2`
+      `/exercise/${id}?format=json&language=2&status=2`,
     );
     return data;
   }
 
   async exerciseCategory(id) {
     const data = await this.get(
-      `/exercisecategory/${id}?format=json&language=2&status=2`
+      `/exercisecategory/${id}?format=json&language=2&status=2`,
     );
     return data;
   }

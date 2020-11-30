@@ -8,7 +8,7 @@ import {google} from 'googleapis';
 const defaultScope = [
   'https://www.googleapis.com/auth/user.phonenumbers.read',
   'https://www.googleapis.com/auth/userinfo.email',
-  'https://www.googleapis.com/auth/userinfo.profile'
+  'https://www.googleapis.com/auth/userinfo.profile',
 ];
 
 /** ********** */
@@ -27,7 +27,7 @@ function createConnection(url) {
   return new google.auth.OAuth2(
     process.env.GOOGLE_CLIENT_ID,
     process.env.GOOGLE_CLIENT_SECRET,
-    url
+    url,
   );
 }
 
@@ -97,7 +97,7 @@ export const getGoogleAccountFromCode = async (code) => {
   } catch (error) {
     if (error.message === 'invalid_grant')
       throw new Error(
-        'The generated authorization code can only be used once. Regenerate another authorization code'
+        'The generated authorization code can only be used once. Regenerate another authorization code',
       );
     throw new Error(error);
   }

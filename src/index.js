@@ -11,8 +11,8 @@ import createServer from './createServer';
       () =>
         /* eslint-disable */
         console.log(
-          `GraphQL Server running at http://localhost:${process.env.PORT}${server.graphqlPath} and socket is running at ws://localhost:${process.env.PORT}${server.graphqlPath}`
-        )
+          `GraphQL Server running at http://localhost:${process.env.PORT}${server.graphqlPath} and socket is running at ws://localhost:${process.env.PORT}${server.graphqlPath}`,
+        ),
       /* eslint-enable */
     );
   } catch (error) {

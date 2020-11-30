@@ -22,7 +22,7 @@ function kgToPounds(kgValue) {
  * @param {float} inchValue takes in a values (inches)
  * @return {float} height in cm
  */
-function feetInchesToCm([feetValue, inchValue,]) {
+function feetInchesToCm([feetValue, inchValue]) {
   const newFootValue = parseFloat(feetValue) * 30.48;
   const newInchValue = parseFloat(inchValue) * 2.54;
   return (newFootValue + newInchValue).toPrecision(4);
@@ -62,7 +62,7 @@ function calculateBMI(weight, height) {
     rating = 'Obese';
   }
 
-  return {bmi: bmi.toPrecision(3), rating, ratingsMsg,};
+  return {bmi: bmi.toPrecision(3), rating, ratingsMsg};
 }
 
 const toCamelCase = (str) =>
