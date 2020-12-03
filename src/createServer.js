@@ -1,11 +1,11 @@
 /* eslint-disable */
-import {altairExpress} from 'altair-express-middleware';
-import {ApolloServer, PubSub} from 'apollo-server-express';
+import { altairExpress } from 'altair-express-middleware';
+import { ApolloServer, PubSub } from 'apollo-server-express';
 import cors from 'cors';
 import express from 'express';
-import {readFileSync} from 'fs';
+import { readFileSync } from 'fs';
 import expressPlayground from 'graphql-playground-middleware-express';
-import {createServer} from 'http';
+import { createServer } from 'http';
 import path from 'path';
 import remark from 'remark';
 import html from 'remark-html';

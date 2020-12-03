@@ -1,7 +1,7 @@
 {
-  "name": "apollo-graphql-server-starter",
+  "name": "vc-backend",
   "version": "0.1.0",
-  "description": "A graphql server using apollo graphql server",
+  "description": "An app where users can access a virtual version of their wardrobe. An app where users do not have to worry about what to wear when they need to dress up. A service where people can preserve their valuable items over a period of time and access them whenever they need them",
   "main": "index.js",
   "scripts": {
     "start": "nodemon -e js,graphql -x node src/index.js",
@@ -21,11 +21,13 @@
     "validate": "npm run check-format && npm run lint"
   },
   "keywords": [
-    "graphql",
-    "apollo"
+    "closets",
+    "virtual",
+    "cloths",
+    "wears"
   ],
   "author": "Oluwasetemi <setemiojo@gmail.com>",
-  "license": "ISC",
+  "license": "BSD",
   "dependencies": {
     "altair-express-middleware": "^2.5.2",
     "apollo-server-express": "^2.14.2",
