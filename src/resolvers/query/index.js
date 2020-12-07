@@ -1,8 +1,4 @@
 // all the query
-const query = {
-  helloWorld() {
-    return 'world';
-  },
-};
+const Query = {};
 
-export default query;
+export default Query;

@@ -1,11 +1,11 @@
 /* eslint-disable */
-import { altairExpress } from 'altair-express-middleware';
-import { ApolloServer, PubSub } from 'apollo-server-express';
+import {altairExpress} from 'altair-express-middleware';
+import {ApolloServer, PubSub} from 'apollo-server-express';
 import cors from 'cors';
 import express from 'express';
-import { readFileSync } from 'fs';
+import {readFileSync} from 'fs';
 import expressPlayground from 'graphql-playground-middleware-express';
-import { createServer } from 'http';
+import {createServer} from 'http';
 import path from 'path';
 import remark from 'remark';
 import html from 'remark-html';
@@ -33,7 +33,7 @@ async function startServer() {
     }
 
     if (process.env.NODE_ENV === 'development') {
-      process.env.FRONTEND_URL = 'http://localhost:9998';
+      process.env.FRONTEND_URL = 'https://virtual-closets.com';
     }
     // setup the database
     const db = dbConnection(dbUrl);

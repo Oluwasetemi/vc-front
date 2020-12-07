@@ -1,0 +1,15 @@
+extends email-layout
+
+block content
+  h2 Resend Otp
+  p Hello #{email.split('@')[0]}!
+  br
+  p You requested that your otp be resent.
+
+  p here is your otp : #{otp}
+
+  p OTP expires in 10 minutes.
+  p Don't forget to store your password safely.
+  br
+  p If you didn't request this email, please ignore it.
+  p Virtual Closet
