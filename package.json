@@ -4,7 +4,7 @@
   "description": "An app where users can access a virtual version of their wardrobe. An app where users do not have to worry about what to wear when they need to dress up. A service where people can preserve their valuable items over a period of time and access them whenever they need them",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon -e js,graphql -x node src/index.js",
+    "start": "cross-env NODE_OPTIONS=\"-r esm -r dotenv/config\" nodemon -e js,graphql -x node --inspect src/index.js",
     "debug": "cross-env NODE_OPTIONS=\"-r esm -r dotenv/config\" nodemon -e js,graphql -x node --inspect src/index.js",
     "dev": "cross-env NODE_OPTIONS=\"-r esm -r dotenv/config\" nodemon -e js,graphql -x node --inspect src/index.js",
     "playground": "graphql playground --dotenv .env",
