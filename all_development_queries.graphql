@@ -1,21 +1,56 @@
-query query_helloWorld_mut292 {
-  helloWorld
-}
-
-mutation query_helloWorld_mut114 {
-  greetings {
-    name
+mutation mutation_register_in498 {
+  register(
+    input: {
+      email: "setemi@mailinator.com"
+      password: "123456"
+      location: "xyz, location"
+      zip: "12345"
+    }
+  ) {
     message
   }
 }
 
-mutation query_helloWorld_mut949 {
-  working
+mutation mutation_mutation_re320 {
+  resendOtp(email: "setemi@mailinator.com") {
+    message
+  }
 }
 
-subscription query_query_helloWor528 {
-  newGreetings {
-    name
+mutation mutation_mutation_re474 {
+  verifyUser(email: "setemi@mailinator.com", otp: "532647") {
+    message
+  }
+}
+
+mutation mutation_mutation_re303 {
+  logIn(email: "setemi@mailinator.com", password: "123456789") {
+    message
+    token
+  }
+}
+
+mutation mutation_mutation_re254 {
+  requestResetPassword(email: "setemi@mailinator.com") {
+    message
+  }
+}
+
+mutation mutation_mutation_re832 {
+  resendResetPasswordRequestMail(
+    email: "setemi@mailinator.com"
+    resetPasswordToken: "04af8c1ce45a9bb781f0148eb7d1ba38f9cd704f"
+  ) {
+    message
+  }
+}
+
+mutation mutation_mutation_re15 {
+  resetPassword(
+    resetToken: "ed5db642bd346ff59ca11a0a0a83e8df81e54fd9"
+    password: "123456789"
+    confirmPassword: "123456789"
+  ) {
     message
   }
 }
