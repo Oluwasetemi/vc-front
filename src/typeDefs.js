@@ -24,10 +24,11 @@ const typeDefs = gql`
   }
 
   input SignupInput {
-    email: String
-    password: String
-    location: String
-    zip: String
+    email: String!
+    phone: String
+    password: String!
+    location: String!
+    zip: String!
   }
 
   type Message {
@@ -122,7 +123,11 @@ const typeDefs = gql`
     """
     Mutation to verify user
     """
-    verifyUser(email: String, otp: String): Message
+    verifyUser(email: String, otp: String): MessageWithToken
+    """
+    Mutation to resend verify user mail
+    """
+    resendVerifyUserMail(email: String): Message
     """
     Mutation to login a user
     """
@@ -130,7 +135,7 @@ const typeDefs = gql`
     """
     Mutation to initiate a password reset request
     """
-    requestResetPassword(email: String): Message!
+    requestResetPassword(email: String): MessageWithToken!
     """
     Mutation to reset password
     """

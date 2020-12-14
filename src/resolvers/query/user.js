@@ -17,8 +17,8 @@ import {
 } from '../../services/user';
 import {hash, match, sign} from '../../utils/auth';
 
-const AuthMutation = {
-  async register(_, {input}) {
+const UserQueries = {
+  async me(_, {input}, {req}) {
     try {
       // loop thru all values of input and trim the white spaces
       for (const each in input) {
@@ -47,12 +47,11 @@ const AuthMutation = {
 
       // set otp
       const otp = Math.floor(100000 + Math.random() * 900000);
-      const otpExpires = Date.now() + 5 * 60 * 1000; // 5 minutes from now
+      const otpExpires = Date.now() + 10 * 60 * 1000; // 10 minutes from now
 
       const user = await createUser({
         email: input.email,
         name: input.email.split('@')[0],
-        phone: input.phone ? input.phone : null,
         password,
         otp,
         otpExpires,
@@ -102,7 +101,7 @@ const AuthMutation = {
       if (!user) {
         // generate another otp
         const otp = Math.floor(100000 + Math.random() * 900000);
-        const otpExpires = Date.now() + 5 * 60 * 1000; // 5 minutes from now
+        const otpExpires = Date.now() + 10 * 60 * 1000; // 10 minutes from now
 
         const res = await updateUser({email}, {otp, otpExpires});
         // send email to the new user
@@ -150,14 +149,6 @@ const AuthMutation = {
         {email},
         {otp: null, otpExpires: null, verified: true},
       );
-
-      // generate token
-      const token = await sign(res._id);
-
-      if (!token) {
-        throw new Error('Token generation error');
-      }
-
       // send email to the new user
       await send({
         filename: 'user_verified',
@@ -166,41 +157,7 @@ const AuthMutation = {
         email: res.email,
       });
 
-      return {message: 'Account Verified', token};
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  },
-  async resendVerifyUserMail(_, {email}) {
-    try {
-      const user = await findOneBasedOnQuery({
-        email,
-      });
-
-      if (!user) {
-        throw new Error(`No such user found for email ${email}`);
-      }
-
-      if (user.verified === true) {
-        return {message: 'User verified already'};
-      }
-
-      // generate another otp
-      const otp = Math.floor(100000 + Math.random() * 900000);
-      const otpExpires = Date.now() + 5 * 60 * 1000; // 5 minutes from now
-
-      const res = await updateUser({email}, {otp, otpExpires});
-      // send email to the new user
-      await send({
-        filename: 'resend_otp',
-        to: res.email,
-        subject: 'Resend Otp',
-        email: res.email,
-        otp,
-      });
-
-      // send sms
-      return {message: 'OTP resent, Confirm your account with OTP!'};
+      return {message: 'Account Verified'};
     } catch (error) {
       throw new Error(error.message);
     }
@@ -277,13 +234,10 @@ const AuthMutation = {
         to: user.email,
         subject: 'Your Password Reset Token',
         email: user.email,
-        resetLink: `${process.env.FRONTEND_MOBILE_URL}auth/reset?resetPasswordToken=${resetPasswordToken}`,
+        resetLink: `${process.env.FRONTEND_URL}/reset?resetToken=${resetPasswordToken}`,
       });
 
-      return {
-        message: 'Thanks. Request for Password Reset successful',
-        token: resetPasswordToken,
-      };
+      return {message: 'Thanks. Request for Password Reset successful'};
     } catch (error) {
       throw new Error(error.message);
     }
@@ -292,7 +246,7 @@ const AuthMutation = {
     try {
       const user = await findOneBasedOnQuery({
         email,
-        resetPasswordToken: resetPasswordToken,
+        resetPasswordToken,
         resetPasswordExpires: {$gt: Date.now()},
       });
 
@@ -314,7 +268,7 @@ const AuthMutation = {
       throw new Error(error.message);
     }
   },
-  async resetPassword(parent, {resetPasswordToken, password, confirmPassword}) {
+  async resetPassword(parent, {resetToken, password, confirmPassword}) {
     try {
       // 1.check if the passwords match
       if (password !== confirmPassword) {
@@ -324,7 +278,7 @@ const AuthMutation = {
       // 2. check if its a legit reset Token
       // 3. check if its expired
       const user = await findOneBasedOnQuery({
-        resetPasswordToken,
+        resetPasswordToken: resetToken,
         resetPasswordExpires: {$gt: Date.now()},
       });
 
@@ -450,4 +404,4 @@ const AuthMutation = {
   },
 };
 
-export default AuthMutation;
+export default UserQueries;
