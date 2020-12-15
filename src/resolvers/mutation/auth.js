@@ -306,7 +306,7 @@ const AuthMutation = {
         to: user.email,
         subject: 'Your Password Reset Token Resent',
         email: user.email,
-        resetLink: `${process.env.FRONTEND_URL}/reset_password/${resetPasswordToken}`,
+        resetLink: `${process.env.FRONTEND_MOBILE_URL}auth/reset?resetPasswordToken=${resetPasswordToken}`,
       });
 
       return {message: 'Check your email to complete the password reset'};
