@@ -29,6 +29,16 @@ const UserMutation = {
       }
       input.password = newHashedPassword;
 
+      if (input.currentLocation) {
+        // update location
+        await updateLocation(
+          {_id: user.currentLocation},
+          {location: input.currentLocation},
+        );
+      }
+
+      input.currentLocation = null;
+
       const updateData = {...input};
 
       // remove null fields
@@ -36,6 +46,7 @@ const UserMutation = {
 
       // validate data
       const updatedUser = await updateUser({_id: user._id}, updateData);
+      updateUser.password = null;
 
       return updatedUser;
     } catch (error) {
