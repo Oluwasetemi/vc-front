@@ -100,7 +100,7 @@ const UserMutation = {
       }
 
       // create location
-      const createdLocation = await createLocation({location});
+      const createdLocation = await createLocation({location, current: true});
 
       // update user data
       await updateUser(
@@ -169,12 +169,21 @@ const UserMutation = {
       throw new Error('Account is not activated');
     }
 
+    // set the current location to false
+    await updateLocation({_id: user.currentLocation}, {current: false});
+
     // check if id is a real location
     const location = await findOneLocationBasedOnQuery({_id: id});
 
     if (!location) {
       throw new Error('Invalid location ID');
     }
+
+    if (location.current !== true) {
+      location.current = true;
+    }
+
+    await location.save();
 
     // update user data
     await updateUser({_id: user._id}, {currentLocation: location._id});

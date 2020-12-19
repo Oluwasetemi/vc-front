@@ -38,7 +38,9 @@ const typeDefs = gql`
   }
 
   type Location {
+    _id: ID
     location: String
+    current: Boolean
     createdAt: DateTime
     updatedAt: DateTime
   }

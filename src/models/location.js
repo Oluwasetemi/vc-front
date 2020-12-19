@@ -5,8 +5,11 @@ const locationSchema = new mongoose.Schema(
   {
     location: {
       type: String,
-      unique: true,
       trim: true,
+    },
+    current: {
+      type: Boolean,
+      default: false,
     },
   },
   {
