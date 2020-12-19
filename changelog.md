@@ -11,3 +11,8 @@
 ## v0.1.2 Accounts and Locations
 
 - 819726a Fix the Accounts and Location, Fix a bug while registering account.New mutations include `updateUserMutation`, `updateUserPassword`, `addLocation`, `updateLocation`, `deleteLocation`, `makeLocationCurrent`. New queries include `me`, `userById`, `userByIds`,`users`, `usersByType`.
+
+## v0.1.3 Bug and Modifications
+
+- bfde159 - 🐛 FIX: allow location and currentLocation to populate to Location object
+- 125de06 Allow `updateUserMutation` to support currentLocation update
