@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import {findUserById} from '../services/user';
 
 if (!process.env.TOKEN_SECRET) {
   throw new Error('Please set a TOKEN_SECRET in the environment variable');
@@ -64,3 +65,18 @@ export const hash = (password) => {
  */
 export const match = (password, hashedPassword) =>
   bcrypt.compare(password, hashedPassword);
+
+/**
+ *  return user from their jwt token
+ * @param {string} token user token
+ * @returns {Promise(Object)} user - the user data
+ */
+export const findUserFromToken = async (token) => {
+  const {id} = await verify(token);
+
+  if (!id) {
+    throw new Error('Invalid token');
+  }
+
+  return findUserById(id);
+};

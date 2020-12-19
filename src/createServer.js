@@ -13,7 +13,10 @@ import recommended from 'remark-preset-lint-recommended';
 import report from 'vfile-reporter';
 import dbConnection from './db';
 import resolvers from './resolvers';
+import {findUserById} from './services/user';
 import typeDefs from './typeDefs';
+import {findUserFromToken} from './utils/auth';
+import stripe from './utils/stripe';
 
 const defaultQueries = readFileSync(
   path.join(__dirname, '..', 'all_development_queries.graphql'),
@@ -47,7 +50,36 @@ async function startServer() {
       typeDefs,
       resolvers,
       introspection: true,
-      context: () => ({pubsub}),
+      subscriptions: {
+        keepAlive: 10000,
+        async onConnect({authToken}) {
+          if (authToken) {
+            const user = await findUserById(authToken);
+            return {user};
+          }
+        },
+      },
+      async context({req, connection}) {
+        if (connection) {
+          return connection.context;
+        }
+
+        const {origin, authorization} = req.headers;
+        const context = {origin, stripe};
+
+        try {
+          const matches = authorization.match(/^bearer (\S+)$/i);
+          const user = await findUserFromToken(matches[1]);
+
+          if (!user) {
+            throw new Error('Invalid token');
+          }
+
+          return {...context, user};
+        } catch (error) {
+          return context;
+        }
+      },
     });
 
     let httpServer = createServer(app);
@@ -61,6 +93,29 @@ async function startServer() {
     };
 
     app.use(cors(corsOptions));
+
+    // TODO: Use express middleware to populate current user (JWT)
+    // 2. create a middleware that populates the user in the request
+    // app.use(async (req, res, next) => {
+    //   try {
+    //     const {authorization: token} = req.headers;
+
+    //     if (token) {
+    //       const {id} = await verify(token);
+
+    //       // check validity of the user id
+    //       const user = await findUserById(id);
+
+    //       if (!user) return next();
+
+    //       req.userId = id;
+    //       req.user = user;
+    //     }
+    //     next();
+    //   } catch (error) {
+    //     throw new Error(error.message);
+    //   }
+    // });
 
     server.applyMiddleware({app});
 
@@ -86,6 +141,24 @@ async function startServer() {
       // read file
       const changeLogString = await readFileSync(
         path.join(__dirname, '..', 'changelog.md'),
+        'UTF-8',
+      );
+      // parse the string of the file to html
+      remark()
+        .use(recommended)
+        .use(html)
+        .process(changeLogString, function (err, file) {
+          console.error(report(err || file));
+          // console.log(String(file))
+          // output the changelog html
+          const htmlFile = String(file);
+          return res.send(String(file));
+        });
+    });
+    app.get('/query', async (req, res) => {
+      // read file
+      const changeLogString = await readFileSync(
+        path.join(__dirname, '..', 'queries.md'),
         'UTF-8',
       );
       // parse the string of the file to html

@@ -16,10 +16,7 @@ const typeDefs = gql`
   }
 
   enum UserEnum {
-    INDIVIDUAL
-    EMPLOYEE
-    COMPANY
-    SUPERADMIN
+    REGULAR
     ADMIN
   }
 
@@ -41,7 +38,9 @@ const typeDefs = gql`
   }
 
   type Location {
-    _empty: String
+    location: String
+    createdAt: DateTime
+    updatedAt: DateTime
   }
 
   type Report {
@@ -67,10 +66,11 @@ const typeDefs = gql`
     _id: ID!
     name: String
     email: String!
-    password: String!
+    password: String
     type: UserEnum!
     source: SourceEnum
     image: String
+    phone: String
     gender: GenderEnum
     nationality: String
     resetPasswordExpires: String
@@ -86,6 +86,20 @@ const typeDefs = gql`
     requests: [Request]
     verified: Boolean
     token: String
+    createdAt: DateTime
+    updatedAt: DateTime
+  }
+
+  input updateUserInput {
+    password: String
+    phone: String
+    currentLocation: String
+  }
+
+  input updateUserPasswordInput {
+    oldPassword: String!
+    newPassword: String!
+    confirmPassword: String!
   }
 
   type Query {
@@ -94,14 +108,6 @@ const typeDefs = gql`
     """
     me: User
     """
-    Fetch users
-    """
-    users: [User]!
-    """
-    Fetch users by their type: should be accessible
-    """
-    usersByType(type: UserEnum): [User]!
-    """
     Fetch user by id: should be accessible
     """
     userById(id: String): User!
@@ -109,6 +115,14 @@ const typeDefs = gql`
     Fetch users by ids: should be accessible
     """
     userByIds(ids: [String]): [User]!
+    """
+    Fetch users
+    """
+    users: [User]!
+    """
+    Fetch users by their type: should be accessible
+    """
+    usersByType(type: UserEnum): [User]!
   }
 
   type Mutation {
@@ -160,6 +174,30 @@ const typeDefs = gql`
     Mutation to login with facebook
     """
     facebookAuth(accessToken: String!): String
+    """
+    Update the user profile
+    """
+    updateUserMutation(input: updateUserInput): User
+    """
+    Update the user's password
+    """
+    updateUserPassword(input: updateUserPasswordInput): Message!
+    """
+    add new Location to user
+    """
+    addLocation(location: String!): Message
+    """
+    update Location
+    """
+    updateLocation(id: String, newLocation: String): Message!
+    """
+    delete Location
+    """
+    deleteLocation(id: String): Message!
+    """
+    make Location current Location
+    """
+    makeLocationCurrent(id: String): Message!
   }
 
   # type Subscription {

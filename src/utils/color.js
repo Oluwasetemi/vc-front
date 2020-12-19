@@ -1,4 +1,4 @@
-export const color = [
+const color = [
   ['r', 1],
   ['g', 2],
   ['b', 4],
@@ -14,5 +14,7 @@ export const color = [
   }),
   {},
 );
+
+export default color;
 
 // console.log(`${g('I')} ${w('love')} ${g('Nigeria')}`);

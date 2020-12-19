@@ -9,6 +9,7 @@ import {randomBytes} from 'crypto';
 import {promisify} from 'util';
 import validator from 'validator';
 import {send} from '../../mail/mail';
+import {createLocation} from '../../services/location';
 import {
   createUser,
   findOneBasedOnQuery,
@@ -49,6 +50,12 @@ const AuthMutation = {
       const otp = Math.floor(100000 + Math.random() * 900000);
       const otpExpires = Date.now() + 5 * 60 * 1000; // 5 minutes from now
 
+      // create location if location
+      let location;
+      if (input.location) {
+        location = await createLocation({location: input.location});
+      }
+
       const user = await createUser({
         email: input.email,
         name: input.email.split('@')[0],
@@ -56,6 +63,9 @@ const AuthMutation = {
         password,
         otp,
         otpExpires,
+        currentLocation: location ? location._id : null,
+        locations: location ? [location._id] : [],
+        zip: input.zip ? input.zip : null,
       });
 
       if (!user) {
