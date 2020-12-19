@@ -33,7 +33,7 @@ const UserMutation = {
         // update location
         await updateLocation(
           {_id: user.currentLocation},
-          {location: input.currentLocation},
+          {location: input.currentLocation, current: true},
         );
       }
 
