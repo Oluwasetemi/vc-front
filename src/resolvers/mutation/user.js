@@ -26,8 +26,8 @@ const UserMutation = {
       if (input.password) {
         // hash new password
         newHashedPassword = await hash(input.password);
+        input.password = newHashedPassword;
       }
-      input.password = newHashedPassword;
 
       if (input.currentLocation) {
         // update location
@@ -37,7 +37,7 @@ const UserMutation = {
         );
       }
 
-      input.currentLocation = null;
+      delete input.currentLocation;
 
       const updateData = {...input};
 
@@ -46,7 +46,8 @@ const UserMutation = {
 
       // validate data
       const updatedUser = await updateUser({_id: user._id}, updateData);
-      updateUser.password = null;
+      delete updatedUser.password;
+      delete updatedUser._doc.password;
 
       return updatedUser;
     } catch (error) {
