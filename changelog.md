@@ -7,3 +7,7 @@
 ## v0.1.1 Bug Fix
 
 - de49bfe Fix the changes on Auth Module `verifyUser` - it now returns token to authenticate a current user. `requestResetPassword` now return the `resetPasswordToken` as a token. Create a new mutation `resendVerifyUserMail` to handle changes when the use loses the otp or account verification mail.
+
+## v0.1.2 Accounts and Locations
+
+- 819726a Fix the Accounts and Location, Fix a bug while registering account.New mutations include `updateUserMutation`, `updateUserPassword`, `addLocation`, `updateLocation`, `deleteLocation`, `makeLocationCurrent`. New queries include `me`, `userById`, `userByIds`,`users`, `usersByType`.
