@@ -112,7 +112,7 @@ const UserMutation = {
       }
 
       // create location
-      const createdLocation = await createLocation({location, current: true});
+      const createdLocation = await createLocation({location});
 
       // update user data
       await updateUser(

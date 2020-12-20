@@ -53,7 +53,10 @@ const AuthMutation = {
       // create location if location
       let location;
       if (input.location) {
-        location = await createLocation({location: input.location});
+        location = await createLocation({
+          location: input.location,
+          current: true,
+        });
       }
 
       const user = await createUser({
