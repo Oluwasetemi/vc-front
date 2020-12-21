@@ -187,7 +187,7 @@ const typeDefs = gql`
     """
     add new Location to user
     """
-    addLocation(location: String!): Message
+    addLocation(location: String!): Location
     """
     update Location
     """

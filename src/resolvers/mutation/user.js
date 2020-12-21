@@ -120,7 +120,7 @@ const UserMutation = {
         {$push: {locations: createdLocation._id}},
       );
 
-      return {message: 'Location added successfully'};
+      return createdLocation;
     } catch (error) {
       console.log(error.message);
       throw new Error('Server Error');
