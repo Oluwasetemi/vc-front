@@ -191,7 +191,7 @@ const typeDefs = gql`
     """
     update Location
     """
-    updateLocation(id: String, newLocation: String): Message!
+    updateLocation(id: String!, newLocation: String!): Location!
     """
     delete Location
     """

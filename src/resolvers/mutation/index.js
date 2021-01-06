@@ -1,9 +1,13 @@
-import AuthMutation from './auth';
-import UserMutation from './user';
+import authMutation from './auth';
+import paymentMutation from './payment';
+import subscriptionMutation from './subscription';
+import userMutation from './user';
 // all the mutation
 const mutation = {
-  ...AuthMutation,
-  ...UserMutation,
+  ...authMutation,
+  ...userMutation,
+  ...paymentMutation,
+  ...subscriptionMutation,
 };
 
 export default mutation;

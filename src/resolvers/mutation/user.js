@@ -137,13 +137,17 @@ const UserMutation = {
       throw new Error('Account is not activated');
     }
 
+    if (!id || !newLocation) {
+      throw new Error('Server error');
+    }
+
     // update Location
     const updatedLocation = await updateLocation(
       {_id: id},
       {location: newLocation},
     );
 
-    return {message: 'Location updated successfully'};
+    return updatedLocation;
   },
   async deleteLocation(_, {id}, {user}) {
     // check whether the user is logged in

@@ -2,7 +2,7 @@
 
 import {findAllUsers, findUserById, findUsersByIds} from '../../services/user';
 
-const UserQueries = {
+const userQueries = {
   async me(_, args, {user}) {
     try {
       if (!user || user === null) {
@@ -106,4 +106,4 @@ const UserQueries = {
   },
 };
 
-export default UserQueries;
+export default userQueries;
