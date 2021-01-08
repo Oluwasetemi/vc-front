@@ -17,3 +17,7 @@
 - bfde159 - 🐛 FIX: allow location and currentLocation to populate to Location object
 - 125de06 Allow `updateUserMutation` to support currentLocation update
 - 4e102c7 - 🐛 FIX: bug fix on updateUserMutation
+
+## v0.1.4 Subscriptions and Payment
+
+- b06286d 📦 NEW: finish the payment and subscriptions
