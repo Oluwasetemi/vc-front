@@ -20,6 +20,12 @@ const typeDefs = gql`
     ADMIN
   }
 
+  enum SubEnum {
+    sub
+    addon
+    onDemand
+  }
+
   input SignupInput {
     email: String!
     phone: String
@@ -60,8 +66,30 @@ const typeDefs = gql`
   type Closet {
     _empty: String
   }
+
   type Vault {
     _empty: String
+  }
+
+  type SubscriptionService {
+    storage: String
+    accessories: String
+    shoes: String
+    helpMePack: String
+    stylist: String
+    vault: String
+    note: String
+  }
+
+  type Subscription {
+    _id: String
+    name: String
+    amount: String
+    services: SubscriptionService
+    type: String
+    stripeProductId: String
+    createdAt: DateTime
+    updatedAt: DateTime
   }
 
   type User {
@@ -88,6 +116,7 @@ const typeDefs = gql`
     requests: [Request]
     verified: Boolean
     token: String
+    customerId: String
     createdAt: DateTime
     updatedAt: DateTime
   }
@@ -102,6 +131,34 @@ const typeDefs = gql`
     oldPassword: String!
     newPassword: String!
     confirmPassword: String!
+  }
+
+  input createSubscriptionInput {
+    name: String!
+    amount: String!
+    type: SubEnum
+    storage: String
+    accessories: String
+    shoes: String
+    helpMePack: String
+    stylist: String
+    vault: String
+    note: String
+    stripeProductId: String
+  }
+
+  input updateSubscriptionInput {
+    name: String
+    amount: String
+    storage: String
+    accessories: String
+    type: SubEnum
+    shoes: String
+    helpMePack: String
+    stylist: String
+    vault: String
+    note: String
+    stripeProductId: String
   }
 
   type Query {
@@ -125,6 +182,18 @@ const typeDefs = gql`
     Fetch users by their type: should be accessible
     """
     usersByType(type: UserEnum): [User]!
+    """
+    Fetch all subscriptions
+    """
+    fetchAllSubscription: [Subscription]!
+    """
+    Fetch all subscriptions by type
+    """
+    fetchAllSubscriptionByType(type: SubEnum): [Subscription]!
+    """
+    Fetch all subscriptions by type
+    """
+    fetchOneSubscription(id: String): Subscription!
   }
 
   type Mutation {
@@ -200,6 +269,25 @@ const typeDefs = gql`
     make Location current Location
     """
     makeLocationCurrent(id: String): Message!
+    """
+    create subscription/addon/onDemand plan
+    """
+    createSubscriptionMutation(input: createSubscriptionInput): Message!
+    """
+    update subscription/addon/onDemand plan
+    """
+    updateSubscriptionMutation(
+      id: String
+      dataToBeUpdated: updateSubscriptionInput
+    ): Message!
+    """
+    delete subscription/addon/onDemand plan
+    """
+    deleteSubscription(id: String): Message!
+    """
+    create a stripe subscription
+    """
+    makePayment(id: String, token: String): Message!
   }
 
   # type Subscription {
