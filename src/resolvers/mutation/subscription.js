@@ -53,6 +53,7 @@ const subscriptionMutation = {
 
       return {message: 'Subscription created successfully'};
     } catch (error) {
+      console.error(error.message);
       throw new Error('Error while creating a subscription');
     }
   },
