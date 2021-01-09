@@ -71,7 +71,7 @@ const typeDefs = gql`
     _empty: String
   }
 
-  # type StripeSubscription {
+  type StripeSubscription {
   #   id: String
   #   billing_cycle_anchor: 1610106475,
   #   cancel_at: null,
@@ -130,7 +130,7 @@ const typeDefs = gql`
   # "start_date": 1610106475,
   # "status": "active",
   # "transfer_data": null,
-  # }
+  }
 
   type SubscriptionService {
     storage: String
