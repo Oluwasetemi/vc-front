@@ -127,27 +127,32 @@ const UserMutation = {
     }
   },
   async updateLocation(_, {id, newLocation}, {user}) {
-    // check whether the user is logged in
-    if (!user || user === null) {
-      throw new Error('You must be logged In');
+    try {
+      // check whether the user is logged in
+      if (!user || user === null) {
+        throw new Error('You must be logged In');
+      }
+
+      // check if the user is activated and not suspended
+      if (user && user.verified === false) {
+        throw new Error('Account is not activated');
+      }
+
+      if (!id || !newLocation) {
+        throw new Error('Server error');
+      }
+
+      // update Location
+      const updatedLocation = await updateLocation(
+        {_id: id},
+        {location: newLocation},
+      );
+
+      return updatedLocation;
+    } catch (error) {
+      console.log(error.message);
+      throw new Error('Error while updating location');
     }
-
-    // check if the user is activated and not suspended
-    if (user && user.verified === false) {
-      throw new Error('Account is not activated');
-    }
-
-    if (!id || !newLocation) {
-      throw new Error('Server error');
-    }
-
-    // update Location
-    const updatedLocation = await updateLocation(
-      {_id: id},
-      {location: newLocation},
-    );
-
-    return updatedLocation;
   },
   async deleteLocation(_, {id}, {user}) {
     // check whether the user is logged in
