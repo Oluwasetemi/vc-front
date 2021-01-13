@@ -21,3 +21,7 @@
 ## v0.1.4 Subscriptions and Payment
 
 - b06286d 📦 NEW: finish the payment and subscriptions
+
+## v0.1.5 Bug fix and new queries and mutation
+
+- main 1fc5956 📦 NEW: v0.1.5 Bug fix and new queries and mutation. New Queries to `fetchAllPaymentFromStripe` with pagination support, update `me` to support `currentSubscriptionPlan` and `stripeSubscriptionId` fields, mutation to `cancelSubscription` and work in progress `upgradeSubscription`
