@@ -24,6 +24,9 @@ const subscriptionSchema = new mongoose.Schema(
     stripeProductId: {
       type: String,
     },
+    stripePriceId: {
+      type: String,
+    },
   },
   {
     timestamps: true,

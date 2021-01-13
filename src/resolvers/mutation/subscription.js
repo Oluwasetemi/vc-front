@@ -22,10 +22,28 @@ const subscriptionMutation = {
 
       const product = await stripe.products.create({
         name: input.name,
-        description: input.name,
+        description: `${input.name}${
+          process.env.NODE_ENV === 'development'
+            ? 'product created in development'
+            : 'product created in production'
+        }`,
       });
 
       if (!product) {
+        throw new Error('Server Error');
+      }
+
+      const amount = Number(input.amount) * 100;
+
+      // create price for the subscription
+      const stripePrice = await stripe.prices.create({
+        unit_amount: amount,
+        currency: 'usd',
+        recurring: {interval: 'month'},
+        product: product.id,
+      });
+
+      if (!stripePrice) {
         throw new Error('Server Error');
       }
 
@@ -43,6 +61,7 @@ const subscriptionMutation = {
           type: input.type,
         },
         stripeProductId: product.id,
+        stripePriceId: stripePrice.id,
       };
 
       const sub = await createSubscription(subData);
@@ -82,8 +101,26 @@ const subscriptionMutation = {
           description: subscriptionToBeUpdated.name,
         });
       }
+      product.id = subscriptionToBeUpdated.stripeProductId;
+
+      let amount;
+      if (!subscriptionToBeUpdated.amount) {
+        amount = Number(dataToBeUpdated.amount) * 100;
+      }
+      amount = Number(subscriptionToBeUpdated.amount) * 100;
+
+      let price;
+      if (!subscriptionToBeUpdated.stripePriceId) {
+        price = await stripe.prices.create({
+          unit_amount: amount,
+          currency: 'usd',
+          recurring: {interval: 'month'},
+          product: product.id,
+        });
+      }
 
       subscriptionToBeUpdated.stripeProductId = product.id;
+      subscriptionToBeUpdated.stripePriceId = price.id;
 
       // loop thru dataToBeUpdated and add to the subscriptionToBeUpdated
       if (dataToBeUpdated) {
@@ -111,7 +148,7 @@ const subscriptionMutation = {
         throw new Error('You do not have the permission to do this');
       }
 
-      // update Location
+      // delete Subscription
       const deletedSubscription = await removeSubscription(id);
 
       if (!deletedSubscription) {
@@ -141,16 +178,90 @@ const subscriptionMutation = {
         throw new Error('Server Error');
       }
 
+      // if user have a currentSubscriptionPlan throw a error
+      if (user.currentSubscriptionPlan) {
+        throw new Error('User have a current subscription plan');
+      }
+
+      // fetch the subscription
+      const subscriptionToChargeFor = await findSubscriptionById(id);
+
+      // update the user data
+      await updateUser({_id: user._id}, {stripeCustomerId: stripeCustomer.id});
+
+      // create the subscription
+      const subscription = await stripe.subscriptions.create({
+        customer: stripeCustomer.id,
+        items: [{price: subscriptionToChargeFor.stripePriceId}],
+      });
+
+      // update the current user with subscription id
+      await updateUser(
+        {_id: user._id},
+        {currentSubscriptionPlan: id, stripeSubscriptionId: subscription.id},
+      );
+
+      return {message: 'Subscription was created successfully'};
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
+  async cancelSubscription(_, args, {user}) {
+    try {
+      // must be done by a user
+      if (!user) {
+        throw new Error('You must be logged In');
+      }
+
+      const deleted = await stripe.subscriptions.del(user.stripeSubscriptionId);
+
+      if (!deleted) {
+        throw new Error(
+          'error while delete from canceling this sub from stripe',
+        );
+      }
+
+      // update user
+      await updateUser(
+        {_id: user._id},
+        {currentSubscriptionPlan: null, stripeSubscriptionId: null},
+      );
+
+      return {message: 'User subscription deleted successfully'};
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
+  async upgradeSubscription(_, {id, token}, {user}) {
+    try {
+      // must be done by a user
+      if (!user) {
+        throw new Error('You must be logged In');
+      }
+
+      // if user have a currentSubscriptionPlan throw a error
+      if (!user.currentSubscriptionPlan) {
+        throw new Error('User must have a current subscription plan');
+      }
+
+      // the id of the new subscription must not be the currentSubscriptionPlan
+      if (id === user.currentSubscriptionPlan.toString()) {
+        throw new Error('You cannot upgrade to your current plan');
+      }
+
+      // findOrCreateStripeCustomer
+      const stripeCustomer = await findOrCreateStripeCustomer(user, token);
+
       // fetch the subscription
       const subscriptionToChargeFor = await findSubscriptionById(id);
 
       const amount = Number(subscriptionToChargeFor.amount) * 100;
 
-      // update the user data
-      const updatedUser = await updateUser(
-        {_id: user._id},
-        {stripeCustomerId: stripeCustomer.id},
-      );
+      // // update the user data
+      // const updatedUser = await updateUser(
+      //   {_id: user._id},
+      //   {stripeCustomerId: user.stripeCustomerId},
+      // );
 
       // create a price
       const stripePrice = await stripe.prices.create({
@@ -164,20 +275,20 @@ const subscriptionMutation = {
         throw new Error('Server Error');
       }
       // create the subscription
-      const subscription = await stripe.subscriptions.create({
-        customer: stripeCustomer.id,
-        items: [{price: stripePrice.id}],
-      });
-      // charge the customer
-      // return stripe.charges.create({
-      //   amount: amount, // Unit: usd
-      //   currency: 'usd',
-      //   customer: stripeCustomer.id,
-      //   source: stripeCustomer.default_source.id,
-      //   description: `Payment for ${subscriptionToChargeFor.name} by ${updatedUser.email}`,
-      // })
+      const subscription = await stripe.subscriptions.update(
+        user.stripeSubscriptionId,
+        {
+          items: [{price: stripePrice.id}],
+        },
+      );
 
-      return {message: 'Subscription was created successfully'};
+      // update the current user with subscription id
+      await updateUser(
+        {_id: user._id},
+        {currentSubscriptionPlan: id, stripeSubscriptionId: subscription.id},
+      );
+
+      return {message: 'User subscription updated successfully'};
     } catch (error) {
       throw new Error(error.message);
     }

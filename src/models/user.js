@@ -101,6 +101,11 @@ const userSchema = new mongoose.Schema(
     googleId: {type: String},
     facebookId: {type: String},
     stripeCustomerId: {type: String},
+    stripeSubscriptionId: {type: String},
+    currentSubscriptionPlan: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Subscription',
+    },
   },
   {
     timestamps: true,

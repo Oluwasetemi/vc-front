@@ -1,5 +1,6 @@
 import {GraphQLDate, GraphQLDateTime} from 'graphql-iso-date';
 import Location from '../models/location';
+import {findSubscriptionById} from '../services/subscription';
 import Mutation from './mutation';
 import Query from './query';
 
@@ -29,6 +30,18 @@ const resolvers = {
         return location;
       }
       return location;
+    },
+    currentSubscriptionPlan: async (parent) => {
+      const subscription = await findSubscriptionById(
+        parent.currentSubscriptionPlan,
+      );
+
+      if (!subscription) {
+        // eslint-disable-next-line no-shadow
+        const subscription = null;
+        return subscription;
+      }
+      return subscription;
     },
   },
 };

@@ -71,6 +71,25 @@ const typeDefs = gql`
     _empty: String
   }
 
+  type StripePayment {
+    id: String
+    email: String
+    username: String
+    amount: String
+    created: String
+    updated: String
+    paymentType: String
+    description: String
+  }
+
+  type StripePaymentList {
+    perPage: Int
+    end: String
+    start: String
+    hasNextPage: Boolean
+    results: [StripePayment!]!
+  }
+
   type StripeSubscription {
     id: String
   }
@@ -92,6 +111,7 @@ const typeDefs = gql`
     services: SubscriptionService
     type: String
     stripeProductId: String
+    stripePriceId: String
     createdAt: DateTime
     updatedAt: DateTime
   }
@@ -120,9 +140,9 @@ const typeDefs = gql`
     requests: [Request]
     verified: Boolean
     token: String
-    customerId: String
+    stripeCustomerId: String
     currentSubscriptionPlan: vcSubscription
-    stripeSubscriptionId: StripeSubscription
+    stripeSubscriptionId: String
     createdAt: DateTime
     updatedAt: DateTime
   }
@@ -200,6 +220,14 @@ const typeDefs = gql`
     Fetch all subscriptions by type
     """
     fetchOneSubscription(id: String): vcSubscription!
+    """
+    Fetch all subscriptions by type
+    """
+    fetchAllPaymentFromStripe(
+      first: Int = 10
+      start: String
+      end: String
+    ): StripePaymentList!
   }
 
   type Mutation {
@@ -294,6 +322,14 @@ const typeDefs = gql`
     create a stripe subscription
     """
     makePayment(id: String, token: String): Message!
+    """
+    upgrade a stripe subscription
+    """
+    upgradeSubscription(id: String, token: String): Message!
+    """
+    cancel a stripe subscription
+    """
+    cancelSubscription: Message!
   }
 
   # type Subscription {

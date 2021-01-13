@@ -93,6 +93,14 @@ query mutation_mutation_re679 {
       createdAt
       current
     }
+    currentSubscriptionPlan {
+      _id
+      name
+      amount
+      stripeProductId
+      stripePriceId
+    }
+    stripeSubscriptionId
   }
 }
 
@@ -339,8 +347,66 @@ query mutation_mutation_re953 {
 
 mutation mutation_mutation_re570 {
   makePayment(
-    id: "5ff70cb1448be7578376177f"
-    token: "tok_1I7MyaAj70kkGLpJDlbhdIdp"
+    id: "5ffe5799b67608a8beae133e"
+    token: "tok_1I8zhpAj70kkGLpJElOh9ljj"
+  ) {
+    message
+  }
+}
+
+query mutation_mutation_re330 {
+  users {
+    _id
+    name
+    email
+    password
+    type
+    source
+    image
+    phone
+    gender
+    nationality
+    resetPasswordExpires
+    resetPasswordToken
+    otpExpires
+    otp
+    verified
+    token
+    stripeCustomerId
+    createdAt
+    updatedAt
+  }
+}
+
+query mutation_mutation_re996 {
+  fetchAllPaymentFromStripe(first: 10) {
+    perPage
+    end
+    start
+    hasNextPage
+    results {
+      id
+      email
+      username
+      amount
+      created
+      updated
+      paymentType
+      description
+    }
+  }
+}
+
+mutation mutation_mutation_re875 {
+  cancelSubscription {
+    message
+  }
+}
+
+mutation mutation_mutation_re138 {
+  upgradeSubscription(
+    id: "5ff70bec448be7578376177d"
+    token: "tok_1I8nXwAj70kkGLpJn6oFcXBx"
   ) {
     message
   }
