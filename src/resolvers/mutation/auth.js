@@ -17,6 +17,7 @@ import {
   updateUser,
 } from '../../services/user';
 import {hash, match, sign} from '../../utils/auth';
+import client from '../../utils/twilio';
 
 const AuthMutation = {
   async register(_, {input}) {
@@ -92,6 +93,11 @@ const AuthMutation = {
       });
 
       // send sms
+      await client.messages.create({
+        body: `Here is your virtual closet otp, ${otp}. It expires in 5 minutes. Virtual Closet team`,
+        from: process.env.TWILIO_TEST_PHONE_NUMBER,
+        to: `${user.phone}`,
+      });
 
       // const result = { ...user._doc, password: null };
       const result = {
@@ -128,6 +134,12 @@ const AuthMutation = {
         });
 
         // send sms
+        await client.messages.create({
+          body: `Here is your resent virtual closet otp, ${otp}. It expires in 5 minutes. Virtual Closet team`,
+          from: process.env.TWILIO_TEST_PHONE_NUMBER,
+          to: `${res.phone}`,
+        });
+
         return {message: 'Otp resent successfully'};
       }
 
@@ -141,6 +153,11 @@ const AuthMutation = {
       });
 
       // send sms
+      await client.messages.create({
+        body: `Here is your virtual closet otp, ${user.otp}. It expires in 5 minutes. Virtual Closet team`,
+        from: process.env.TWILIO_TEST_PHONE_NUMBER,
+        to: `${user.phone}`,
+      });
 
       return {message: 'Otp resent successfully'};
     } catch (error) {
@@ -213,6 +230,12 @@ const AuthMutation = {
       });
 
       // send sms
+      await client.messages.create({
+        body: `Here is your virtual closet otp, ${otp}. It expires in 5 minutes. Virtual Closet team`,
+        from: process.env.TWILIO_TEST_PHONE_NUMBER,
+        to: `${res.phone}`,
+      });
+
       return {message: 'OTP resent, Confirm your account with OTP!'};
     } catch (error) {
       throw new Error(error.message);

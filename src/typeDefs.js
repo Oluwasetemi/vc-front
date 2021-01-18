@@ -26,12 +26,12 @@ const typeDefs = gql`
     onDemand
   }
 
-  input SignupInput {
-    email: String!
-    phone: String
-    password: String!
-    location: String!
-    zip: String!
+  enum RequestEnum {
+    Pickup
+    Delivery
+    Stylist
+    Outfit
+    HelpMePack
   }
 
   type Message {
@@ -59,8 +59,22 @@ const typeDefs = gql`
     _empty: String
   }
 
+  type Meta {
+    note: String
+  }
+
   type Request {
-    _empty: String
+    numberOfItems: Int
+    type: RequestEnum
+    pickupLocation: Location
+    items: [Item]
+    user: User
+    bookingId: String
+    datetimePicked: DateTime
+    contactPhoneNumber: String
+    metaData: Meta
+    createdAt: DateTime
+    updatedAt: DateTime
   }
 
   type Closet {
@@ -68,6 +82,10 @@ const typeDefs = gql`
   }
 
   type Vault {
+    _empty: String
+  }
+
+  type Item {
     _empty: String
   }
 
@@ -143,8 +161,17 @@ const typeDefs = gql`
     stripeCustomerId: String
     currentSubscriptionPlan: vcSubscription
     stripeSubscriptionId: String
+    currentClosetSize: Int
     createdAt: DateTime
     updatedAt: DateTime
+  }
+
+  input SignupInput {
+    email: String!
+    phone: String
+    password: String!
+    location: String!
+    zip: String!
   }
 
   input updateUserInput {
@@ -157,6 +184,33 @@ const typeDefs = gql`
     oldPassword: String!
     newPassword: String!
     confirmPassword: String!
+  }
+
+  input createRequest {
+    """
+    the date format - DD/MM/YYYY
+    """
+    date: String!
+    """
+    the time format(24hr) - HH:MM
+    """
+    time: String!
+    """
+    user might decide to add a new location or user currentLocation or one of the stored locations
+    """
+    pickupLocation: String
+    """
+    the type of the request range from pickup, delivery, stylist, outfit or helpmepack
+    """
+    type: RequestEnum
+    """
+    the number of items in the request if any
+    """
+    numberOfItems: Int
+  }
+
+  input updateRequestInput {
+    _empty: String
   }
 
   input createSubscriptionInput {
@@ -330,6 +384,21 @@ const typeDefs = gql`
     cancel a stripe subscription
     """
     cancelSubscription: Message!
+    """
+    create a request
+    """
+    createRequestMutation(input: createRequest): Message!
+    """
+    update a request
+    """
+    updateRequestMutation(
+      id: ID!
+      dataToBeUpdated: updateRequestInput
+    ): Message!
+    """
+    delete a request
+    """
+    deleteRequest(id: ID): Message!
   }
 
   # type Subscription {

@@ -102,7 +102,6 @@ const userSchema = new mongoose.Schema(
     facebookId: {type: String},
     stripeCustomerId: {type: String},
     stripeSubscriptionId: {type: String},
-    currentClosetSize: {type: Number, default: 0},
     currentSubscriptionPlan: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Subscription',

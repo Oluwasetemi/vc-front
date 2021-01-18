@@ -414,4 +414,11 @@ mutation mutation_mutation_re138 {
     message
   }
 }
+
+
+mutation mutation_mutation_re610 {
+  createRequestMutation(input: {date: "20/01/2021", time: "9:00", type: Pickup, numberOfItems: 4}) {
+    message
+  }
+}
 ```
