@@ -25,3 +25,7 @@
 ## v0.1.5 Bug fix and new queries and mutation
 
 - main 1fc5956 📦 NEW: v0.1.5 Bug fix and new queries and mutation. New Queries to `fetchAllPaymentFromStripe` with pagination support, update `me` to support `currentSubscriptionPlan` and `stripeSubscriptionId` fields, mutation to `cancelSubscription` and work in progress `upgradeSubscription`
+
+## v0.1.6 First Version of the requestResetPassword
+
+- main 555c427 📦 NEW: first work on the request. New Mutation `createRequestMutation`.
