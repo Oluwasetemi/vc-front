@@ -112,11 +112,13 @@ const requestMutation = {
 
       return req;
     } catch (error) {
-      console.error(error.message);
       const message =
         (error && error.data && error.data.error) ||
+        (error.data.errors && error.data.errors.customer[0]) ||
         error.message ||
         'Error while creating a request';
+      console.error(message);
+
       throw new Error(message);
     }
   },

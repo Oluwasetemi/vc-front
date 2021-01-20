@@ -30,7 +30,7 @@
 
 - main 555c427 📦 NEW: first work on the request. New Mutation `createRequestMutation`.
 
-## v0.1.7 Update and Bug Fix on createRequestMutation
+## v0.1.7 3ffb632 Update and Bug Fix on createRequestMutation
 
 - `createRequestMutation` bug fix to support any location id sent and it now returns a Request object.
 - `createSubscriptionMutation` now returns vcSubscription object.
