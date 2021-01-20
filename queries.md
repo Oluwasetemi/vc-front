@@ -4,7 +4,7 @@
 mutation mutation_register_in498 {
   register(
     input: {
-      email: "setemi4@mailinator.com"
+      email: "dev@virtual-closets.com"
       password: "123456"
       location: "house 4, califonia beach, location"
       zip: "12345"
@@ -22,7 +22,7 @@ mutation mutation_mutation_re320 {
 }
 
 mutation mutation_mutation_re474 {
-  verifyUser(email: "setemi4@mailinator.com", otp: "712556") {
+  verifyUser(email: "dev@virtual-closets.com", otp: "316615") {
     message
     token
   }
@@ -171,7 +171,7 @@ mutation mutation_mutation_re316 {
     input: {
       name: "platinum"
       amount: "159.99"
-      storage: "100 clothing Items"
+      storage: 100
       shoes: "15"
       accessories: "35"
       helpMePack: "4 per year"
@@ -179,7 +179,7 @@ mutation mutation_mutation_re316 {
       vault: "10 items"
     }
   ) {
-    message
+    _id
   }
 }
 
@@ -188,7 +188,7 @@ mutation mutation_mutation_re317 {
     input: {
       name: "gold"
       amount: "99.99"
-      storage: "50 clothing Items"
+      storage: 50
       shoes: "5"
       accessories: "10"
       helpMePack: "2 per year"
@@ -196,7 +196,7 @@ mutation mutation_mutation_re317 {
       vault: "none"
     }
   ) {
-    message
+    _id
   }
 }
 
@@ -205,7 +205,7 @@ mutation mutation_mutation_re318 {
     input: {
       name: "silver"
       amount: "59.99"
-      storage: "25 clothing Items"
+      storage: 25
       shoes: "none"
       accessories: "5"
       helpMePack: "1 per year"
@@ -213,7 +213,7 @@ mutation mutation_mutation_re318 {
       vault: "none"
     }
   ) {
-    message
+    _id
   }
 }
 
@@ -222,7 +222,7 @@ mutation mutation_mutation_re319 {
     input: {
       name: "shoes only"
       amount: "3.99"
-      storage: "none"
+      storage: 0
       shoes: "none"
       accessories: "none"
       helpMePack: "none"
@@ -232,7 +232,7 @@ mutation mutation_mutation_re319 {
       type: addon
     }
   ) {
-    message
+    _id
   }
 }
 
@@ -241,7 +241,7 @@ mutation mutation_mutation_re399 {
     input: {
       name: "Accessories only"
       amount: "1"
-      storage: "none"
+      storage: 0
       shoes: "none"
       accessories: "none"
       helpMePack: "none"
@@ -251,7 +251,7 @@ mutation mutation_mutation_re399 {
       type: addon
     }
   ) {
-    message
+    _id
   }
 }
 
@@ -260,7 +260,7 @@ mutation mutation_mutation_re398 {
     input: {
       name: "help me pack onlyxxx"
       amount: "50"
-      storage: "none"
+      storage: 0
       shoes: "none"
       accessories: "none"
       helpMePack: "none"
@@ -270,7 +270,9 @@ mutation mutation_mutation_re398 {
       type: onDemand
     }
   ) {
-    message
+    _id
+    name
+    amount
   }
 }
 
@@ -351,7 +353,7 @@ query mutation_mutation_re953 {
 mutation mutation_mutation_re570 {
   makePayment(
     id: "5ffe5799b67608a8beae133e"
-    token: "tok_1I8zhpAj70kkGLpJElOh9ljj"
+    token: "tok_1IAGIxAj70kkGLpJf2i3174M"
   ) {
     message
   }
@@ -415,9 +417,26 @@ mutation mutation_mutation_re138 {
   }
 }
 
-
 mutation mutation_mutation_re610 {
-  createRequestMutation(input: {date: "20/01/2021", time: "9:00", type: Pickup, numberOfItems: 4}) {
+  createRequestMutation(
+    input: {date: "12/02/2021", time: "12:00", type: Pickup, numberOfItems: 5}
+  ) {
+    bookingId
+    _id
+  }
+}
+
+mutation mutation_mutation_re690 {
+  acceptPickupRequest(
+    id: "60083dcfae225e2b84841456"
+    bookingId: "2a9bd2a0-7119-4f4a-99ae-cef525fdf4c2"
+  ) {
+    message
+  }
+}
+
+mutation mutation_mutation_re800 {
+  sendOutPickup(id: "60083dcfae225e2b84841456") {
     message
   }
 }

@@ -26,6 +26,12 @@
 
 - main 1fc5956 📦 NEW: v0.1.5 Bug fix and new queries and mutation. New Queries to `fetchAllPaymentFromStripe` with pagination support, update `me` to support `currentSubscriptionPlan` and `stripeSubscriptionId` fields, mutation to `cancelSubscription` and work in progress `upgradeSubscription`
 
-## v0.1.6 First Version of the requestResetPassword
+## v0.1.6 First Version of the request module
 
 - main 555c427 📦 NEW: first work on the request. New Mutation `createRequestMutation`.
+
+## v0.1.7 Update and Bug Fix on createRequestMutation
+
+- `createRequestMutation` bug fix to support any location id sent and it now returns a Request object.
+- `createSubscriptionMutation` now returns vcSubscription object.
+- Create new mutation `acceptPickupRequest` and `sendOutPickup`

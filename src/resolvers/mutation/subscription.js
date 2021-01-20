@@ -70,7 +70,7 @@ const subscriptionMutation = {
         throw new Error('unable to create subscription');
       }
 
-      return {message: 'Subscription created successfully'};
+      return sub;
     } catch (error) {
       console.error(error.message);
       throw new Error('Error while creating a subscription');

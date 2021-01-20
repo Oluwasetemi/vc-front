@@ -64,6 +64,7 @@ const typeDefs = gql`
   }
 
   type Request {
+    _id: String
     numberOfItems: Int
     type: RequestEnum
     pickupLocation: Location
@@ -113,7 +114,7 @@ const typeDefs = gql`
   }
 
   type SubscriptionService {
-    storage: String
+    storage: Int
     accessories: String
     shoes: String
     helpMePack: String
@@ -186,6 +187,10 @@ const typeDefs = gql`
     confirmPassword: String!
   }
 
+  input addItemInput {
+    _empty: String
+  }
+
   input createRequest {
     """
     the date format - DD/MM/YYYY
@@ -217,7 +222,7 @@ const typeDefs = gql`
     name: String!
     amount: String!
     type: SubEnum
-    storage: String
+    storage: Int
     accessories: String
     shoes: String
     helpMePack: String
@@ -282,6 +287,18 @@ const typeDefs = gql`
       start: String
       end: String
     ): StripePaymentList!
+    """
+    Fetch user's request by type to include sorting and pagination
+    """
+    fetchRequestByType(type: RequestEnum): [Request]!
+    """
+    Fetch all user's request to include sorting and pagination
+    """
+    fetchAllRequest(id: String): [Request]!
+    """
+    Fetch one user's request
+    """
+    fetchOneRequest(id: String): Request!
   }
 
   type Mutation {
@@ -360,7 +377,7 @@ const typeDefs = gql`
     """
     create subscription/addon/onDemand plan
     """
-    createSubscriptionMutation(input: createSubscriptionInput): Message!
+    createSubscriptionMutation(input: createSubscriptionInput): vcSubscription!
     """
     update subscription/addon/onDemand plan
     """
@@ -387,7 +404,7 @@ const typeDefs = gql`
     """
     create a request
     """
-    createRequestMutation(input: createRequest): Message!
+    createRequestMutation(input: createRequest): Request!
     """
     update a request
     """
@@ -399,6 +416,26 @@ const typeDefs = gql`
     delete a request
     """
     deleteRequest(id: ID): Message!
+    """
+    accept a pickup request (admin)
+    """
+    acceptPickupRequest(id: ID, bookingId: String): Message!
+    """
+    sendOut a pickup request (admin)
+    """
+    sendOutPickup(id: ID): Message!
+    """
+    confirm a pickup request (admin)
+    """
+    confirmPickup(id: ID): Message!
+    """
+    Add new item(s) to a user's closet
+    """
+    addItemToCloset(input: [addItemInput]): Message!
+    """
+    Create outfits from a user's closet item
+    """
+    createOutfit(items: [String], name: String): Message!
   }
 
   # type Subscription {

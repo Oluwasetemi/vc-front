@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'; // Erase if already required
 
 // Declare the Schema of the Mongo model
-const userSchema = new mongoose.Schema(
+const closetSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -112,9 +112,9 @@ const userSchema = new mongoose.Schema(
   },
 );
 
-userSchema.index({name: 'text', email: 'text'});
+closetSchema.index({name: 'text'});
 
 //Export the model
-const User = mongoose.model('User', userSchema);
+const Closet = mongoose.model('Closet', closetSchema);
 
-export default User;
+export default Closet;

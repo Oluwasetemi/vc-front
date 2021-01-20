@@ -1,7 +1,11 @@
-import {createLocation, findLocationById} from '../../services/location';
-import {createRequest} from '../../services/request';
+import axios from 'axios';
+import {findLocationById} from '../../services/location';
+import {
+  createRequest,
+  findRequestById,
+  updateRequest,
+} from '../../services/request';
 import {findSubscriptionById} from '../../services/subscription';
-import {updateUser} from '../../services/user';
 import timekit from '../../utils/timekit';
 
 const requestMutation = {
@@ -13,15 +17,16 @@ const requestMutation = {
         throw new Error('You must be logged In');
       }
 
+      if (!user.currentSubscriptionPlan) {
+        throw new Error('You do not have a current subscription plan');
+      }
+
       // check number of items from the users currentSubscriptionPlan
       // populate the currentSubscriptionPlan data
       const subscriptionPlan = await findSubscriptionById(
         user.currentSubscriptionPlan,
       );
-      const totalRoom = Number(
-        subscriptionPlan.services.storage &&
-          subscriptionPlan.services.storage.split(' ')[0],
-      );
+      const totalRoom = Number(subscriptionPlan.services.storage);
       const availableRoom = totalRoom - user.currentClosetSize;
 
       if (input.numberOfItems > availableRoom) {
@@ -35,6 +40,10 @@ const requestMutation = {
       const [d, M, y] = date.split('/');
       const [h, m] = time.split(':');
       const dateObj = new Date(y, M - 1, d, h, m);
+
+      if (Date.now() > Date.parse(dateObj.toISOString())) {
+        throw new Error('Pick a future date');
+      }
       // convert the dateObj to ISO format
       const dateISOFormat = dateObj.toISOString().split('.')[0] + 'Z';
 
@@ -48,10 +57,14 @@ const requestMutation = {
       let location;
       if (input.pickupLocation) {
         // create a new location
-        location = await createLocation({location: input.pickupLocation});
+        location = await findLocationById(input.pickupLocation);
+
+        if (!location) {
+          throw new Error('Invalid location data, Try Again');
+        }
 
         // add it to user location data
-        await updateUser({_id: user._id}, {$push: {locations: location._id}});
+        // await updateUser({_id: user._id}, {$push: {locations: location._id}});
       }
       // else use user current location
       location = await findLocationById(user.currentLocation);
@@ -97,10 +110,14 @@ const requestMutation = {
         throw new Error(`unable to create request of ${input.type}`);
       }
 
-      return {message: 'Request created successfully'};
+      return req;
     } catch (error) {
       console.error(error.message);
-      throw new Error(error.data.error || 'Error while creating a request');
+      const message =
+        (error && error.data && error.data.error) ||
+        error.message ||
+        'Error while creating a request';
+      throw new Error(message);
     }
   },
   async updateRequestMutation(_, {id, dataToBeUpdated}, {user}) {
@@ -133,9 +150,113 @@ const requestMutation = {
         throw new Error('You do not have the permission to do this');
       }
 
+      // delete request
+
       return {message: 'Subscription deleted successfully'};
     } catch (error) {
       throw new Error('Error while deleting a subscription');
+    }
+  },
+  async acceptPickupRequest(_, {id, bookingId}, {user}) {
+    try {
+      // must be done by an admin
+      if (!user) {
+        throw new Error('You must be logged In');
+      }
+
+      if (user.type !== 'ADMIN') {
+        throw new Error('You do not have the permission to do this');
+      }
+
+      // find the request
+      const request = await findRequestById(id);
+
+      if (!request) {
+        throw new Error('Request ID invalid');
+      }
+
+      // confirm the booking
+      // Send a POST request
+      const confirmedBooking = await axios({
+        method: 'put',
+        url: `https://api.timekit.io/v2/bookings/${bookingId}/confirm`,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        auth: {
+          username: '',
+          password: `${process.env.TIMEKIT_API_KEY}`,
+        },
+        data: {},
+      });
+
+      // update the pickup request data from unconfirmed to Pending
+      const updatedRequest = await updateRequest(
+        {_id: id},
+        {status: 'Pending'},
+      );
+
+      if (!updatedRequest) {
+        throw new Error('Error while updating the Request');
+      }
+
+      return {message: 'Pickup Request accepted successfully'};
+    } catch (error) {
+      console.log(error.message);
+      throw new Error('Error while accepting a pickup');
+    }
+  },
+  async sendOutPickup(_, {id}, {user}) {
+    try {
+      // must be done by an admin
+      if (!user) {
+        throw new Error('You must be logged In');
+      }
+
+      if (user.type !== 'ADMIN') {
+        throw new Error('You do not have the permission to do this');
+      }
+
+      // update the pickup request data from unconfirmed to Pending
+      const updatedRequest = await updateRequest({_id: id}, {status: 'Active'});
+
+      if (!updatedRequest) {
+        throw new Error('Error while updating the Request');
+      }
+
+      return {message: 'Pickup Request sent out successfully'};
+    } catch (error) {
+      throw new Error('Error while accepting a pickup');
+    }
+  },
+  async confirmPickup(_, {id}, {user}) {
+    try {
+      // must be done by an admin
+      if (!user) {
+        throw new Error('You must be logged In');
+      }
+
+      if (user.type !== 'ADMIN') {
+        throw new Error('You do not have the permission to do this');
+      }
+
+      // update the pickup request data from unconfirmed to Pending
+      const updatedRequest = await updateRequest(
+        {_id: id},
+        {status: 'Confirmed'},
+      );
+
+      // create a report
+
+      // send report email to user about the pick
+
+      if (!updatedRequest) {
+        throw new Error('Error while updating the Request');
+      }
+
+      return {message: 'Pickup Request accepted successfully'};
+    } catch (error) {
+      throw new Error('Error while accepting a pickup');
     }
   },
 };
