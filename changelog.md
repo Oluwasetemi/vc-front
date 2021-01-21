@@ -36,3 +36,4 @@
 - `createSubscriptionMutation` now returns vcSubscription object.
 - Create new mutation `acceptPickupRequest` and `sendOutPickup`
 - Add `fetchAllRequest` and `fetchOneRequest` query to fetch request by the admin.
+- Add `fetchBooking` and `fetchOneBooking` query to booking from TimeKit.

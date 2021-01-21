@@ -77,7 +77,7 @@ const requestMutation = {
         end: after5DaysOfStart,
         what: `${input.type} request by ${user.email}`,
         where: location.location,
-        description: `${input.type} request by ${user.email}`,
+        description: `${input.numberOfItems} due for ${input.type} request by ${user.email}`,
         customer: {
           name: user.email.split('@')[0],
           email: user.email,

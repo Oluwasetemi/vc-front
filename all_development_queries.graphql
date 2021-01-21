@@ -437,3 +437,77 @@ mutation mutation_mutation_re800 {
     message
   }
 }
+
+query mutation_mutation_re937 {
+  fetchAllRequest(first: 2, sort: descending, type: All) {
+    total
+    data {
+      _id
+      numberOfItems
+      type
+      pickupLocation {
+        _id
+      }
+      user {
+        _id
+        currentSubscriptionPlan {
+          _id
+        }
+      }
+      bookingId
+      datetimePicked
+      contactPhoneNumber
+      status
+      createdAt
+      updatedAt
+    }
+  }
+}
+
+query mutation_mutation_re745 {
+  fetchOneRequest(id: "60084b506383a03c8a2e773a") {
+    _id
+    numberOfItems
+    type
+    pickupLocation {
+      _id
+    }
+    user {
+      _id
+      currentSubscriptionPlan {
+        _id
+      }
+    }
+    bookingId
+    datetimePicked
+    contactPhoneNumber
+    status
+    createdAt
+    updatedAt
+  }
+}
+
+query mutation_mutation_re777 {
+  fetchOneBooking(id: "34c5310-78e4-4284-acde-9acf488e2b51") {
+    id
+    state
+    completed
+    what
+    where
+    description
+    start
+  }
+}
+
+query mutation_mutation_re426 {
+  fetchBooking(day: "2021-02-28T12:00:00Z", month: true) {
+    id
+    state
+    completed
+    what
+    where
+    description
+    start
+    email
+  }
+}

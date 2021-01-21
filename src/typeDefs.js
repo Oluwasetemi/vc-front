@@ -95,6 +95,17 @@ const typeDefs = gql`
     data: [Request!]!
   }
 
+  type Booking {
+    id: String
+    state: String
+    completed: Boolean
+    what: String
+    where: String
+    description: String
+    start: String
+    email: String
+  }
+
   type Closet {
     _empty: String
   }
@@ -318,6 +329,23 @@ const typeDefs = gql`
     Fetch one user's request
     """
     fetchOneRequest(id: ID!): Request!
+    """
+    Fetch booking for month and a day. NB you can either send the month or day
+    """
+    fetchBooking(
+      """
+      Send the month value boolean
+      """
+      month: Boolean = false
+      """
+      Send the index of the month value here (the date format - "2021-02-28T12:00:00Z")
+      """
+      day: String!
+    ): [Booking!]!
+    """
+    Fetch one booking
+    """
+    fetchOneBooking(id: ID!): Booking!
   }
 
   type Mutation {
