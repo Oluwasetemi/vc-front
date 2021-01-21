@@ -35,3 +35,4 @@
 - `createRequestMutation` bug fix to support any location id sent and it now returns a Request object.
 - `createSubscriptionMutation` now returns vcSubscription object.
 - Create new mutation `acceptPickupRequest` and `sendOutPickup`
+- Add `fetchAllRequest` and `fetchOneRequest` query to fetch request by the admin.

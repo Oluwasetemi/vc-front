@@ -23,8 +23,28 @@ export const findRequestsByIds = async (ids) => {
   return result;
 };
 
-export const findAllRequests = (query = {}) => Request.find(query);
+export const findAllRequests = async (query = {}) => {
+  let req;
+  let total;
+  const sortObject = {};
+  const limit = query.first;
+  const skip = query.start;
+  if (query.sort && query.sortBy) {
+    sortObject[query.sortBy] = `${query.sort}`;
+  }
+  if (query.type === 'All') {
+    req = await Request.find({}).limit(limit).skip(skip).sort(sortObject);
+    total = await Request.countDocuments({});
+  } else {
+    req = await Request.find({type: query.type})
+      .limit(limit)
+      .skip(skip)
+      .sort(sortObject);
+    total = await Request.countDocuments({type: query.type});
+  }
 
+  return {req, total: total};
+};
 export const removeRequest = (id) => Request.findByIdAndRemove(id);
 
 export const updateRequest = (query, data) =>

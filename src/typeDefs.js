@@ -4,6 +4,15 @@ const typeDefs = gql`
   scalar Date
   scalar DateTime
 
+  enum SortDirection {
+    ascending
+    descending
+  }
+
+  enum SortableRequestField {
+    createdAt
+  }
+
   enum SourceEnum {
     EMAIL
     GOOGLE
@@ -32,6 +41,7 @@ const typeDefs = gql`
     Stylist
     Outfit
     HelpMePack
+    All
   }
 
   type Message {
@@ -60,6 +70,7 @@ const typeDefs = gql`
   }
 
   type Meta {
+    type: String
     note: String
   }
 
@@ -73,9 +84,15 @@ const typeDefs = gql`
     bookingId: String
     datetimePicked: DateTime
     contactPhoneNumber: String
+    status: String
     metaData: Meta
     createdAt: DateTime
     updatedAt: DateTime
+  }
+
+  type RequestWithPaginationSortingFiltering {
+    total: Int
+    data: [Request!]!
   }
 
   type Closet {
@@ -288,17 +305,19 @@ const typeDefs = gql`
       end: String
     ): StripePaymentList!
     """
-    Fetch user's request by type to include sorting and pagination
-    """
-    fetchRequestByType(type: RequestEnum): [Request]!
-    """
     Fetch all user's request to include sorting and pagination
     """
-    fetchAllRequest(id: String): [Request]!
+    fetchAllRequest(
+      type: RequestEnum = Pickup
+      first: Int = 50
+      start: Int = 0
+      sort: SortDirection = descending
+      sortBy: SortableRequestField = createdAt
+    ): RequestWithPaginationSortingFiltering
     """
     Fetch one user's request
     """
-    fetchOneRequest(id: String): Request!
+    fetchOneRequest(id: ID!): Request!
   }
 
   type Mutation {

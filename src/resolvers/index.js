@@ -1,6 +1,7 @@
 import {GraphQLDate, GraphQLDateTime} from 'graphql-iso-date';
 import Location from '../models/location';
 import {findSubscriptionById} from '../services/subscription';
+import {findUserById} from '../services/user';
 import Mutation from './mutation';
 import Query from './query';
 
@@ -42,6 +43,28 @@ const resolvers = {
         return subscription;
       }
       return subscription;
+    },
+  },
+  Request: {
+    user: async (parent) => {
+      const user = await findUserById(parent.user);
+
+      if (!user) {
+        // eslint-disable-next-line no-shadow
+        const user = null;
+        return user;
+      }
+      return user;
+    },
+    pickupLocation: async (parent) => {
+      const location = await Location.findById(parent.pickupLocation);
+
+      if (!location) {
+        // eslint-disable-next-line no-shadow
+        const location = null;
+        return location;
+      }
+      return location;
     },
   },
 };
