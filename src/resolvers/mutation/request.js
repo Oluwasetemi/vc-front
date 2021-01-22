@@ -114,7 +114,9 @@ const requestMutation = {
     } catch (error) {
       const message =
         (error && error.data && error.data.error) ||
-        (error.data.errors &&
+        (error &&
+          error.data &&
+          error.data.errors &&
           error.data.errors.customer &&
           error.data.errors.customer[0]) ||
         error.message ||
