@@ -114,7 +114,9 @@ const requestMutation = {
     } catch (error) {
       const message =
         (error && error.data && error.data.error) ||
-        (error.data.errors && error.data.errors.customer[0]) ||
+        (error.data.errors &&
+          error.data.errors.customer &&
+          error.data.errors.customer[0]) ||
         error.message ||
         'Error while creating a request';
       console.error(message);
@@ -256,7 +258,7 @@ const requestMutation = {
         throw new Error('Error while updating the Request');
       }
 
-      return {message: 'Pickup Request accepted successfully'};
+      return {message: 'Pickup Request confirmed successfully'};
     } catch (error) {
       throw new Error('Error while accepting a pickup');
     }

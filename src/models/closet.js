@@ -1,110 +1,76 @@
 import mongoose from 'mongoose'; // Erase if already required
-
-// Declare the Schema of the Mongo model
-const closetSchema = new mongoose.Schema(
+const itemSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      unique: true,
+      trim: true,
+      required: 'Item name required',
+    },
+    // items properties
+    material: {
+      type: String,
+      enum: [
+        'Cotton',
+        'Wool',
+        'Silk',
+        'Denim',
+        'Leather',
+        'Fur',
+        'Nylon',
+        'Polyester',
+        'Metal',
+        'Plastic',
+        'Suede',
+        'Other',
+      ],
+      default: 'Other',
       trim: true,
     },
-    email: {
+    category: {
       type: String,
-      required: true,
-      lowercase: true,
+      enum: [
+        'Cocktail',
+        'Dinner',
+        'Formal',
+        'Work',
+        'Social',
+        'Casual',
+        'Other',
+      ],
+      default: 'Other',
       trim: true,
-    },
-    phone: {
-      type: String,
-      trim: true,
-    },
-    zip: {
-      type: String,
-      trim: true,
-    },
-    password: {
-      type: String,
-      required: true,
     },
     type: {
       type: String,
-      enum: ['REGULAR', 'ADMIN'],
-      default: 'REGULAR',
+      trim: true,
+      default: 'Other',
     },
-    /**
-     * source of the auth default to email with possible option to gmail and twitter
-     */
-    source: {
+    feature: {
       type: String,
-      default: 'EMAIL',
-      enum: ['EMAIL', 'GOOGLE', 'FACEBOOK'],
+      trim: true,
+      default: 'Other',
     },
-    image: {
+    color: {
       type: String,
-      default: 'https://via.placeholder.com/350.png',
+      trim: true,
+      required: 'Item color required',
     },
-    gender: {
+    brand: {
       type: String,
-      enum: ['MALE', 'FEMALE'],
-      // required: true
+      trim: true,
+      required: 'Item brand required',
     },
-    nationality: {type: String, default: 'usa'},
-    // reset password details
-    resetPasswordExpires: {type: Number},
-    resetPasswordToken: {type: String},
-    // otp details
-    otpExpires: {type: Number},
-    otp: {type: String},
-    /**
-     * The array of the id of the Location
-     */
-    locations: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Location',
-      },
-    ],
-    /**
-     * if currentHra?the id of the Location
-     */
-    currentLocation: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Location',
+    itemCondition: {
+      type: String,
+      trim: true,
+      required: 'Item condition required',
     },
-    closet: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Closet',
+    stat: {
+      type: mongoose.Schema.Types.Mixed,
     },
-    outfit: {
+    matchingOutfit: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Outfit',
-    },
-    vault: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Vault',
-    },
-    reports: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Reports',
-      },
-    ],
-    requests: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Request',
-      },
-    ],
-    verified: {
-      type: Boolean,
-    },
-    googleId: {type: String},
-    facebookId: {type: String},
-    stripeCustomerId: {type: String},
-    stripeSubscriptionId: {type: String},
-    currentSubscriptionPlan: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Subscription',
     },
   },
   {
@@ -112,7 +78,29 @@ const closetSchema = new mongoose.Schema(
   },
 );
 
-closetSchema.index({name: 'text'});
+itemSchema.index({name: 'text'});
+
+// Declare the Schema of the Mongo model
+const closetSchema = new mongoose.Schema(
+  {
+    itemsIn: {
+      type: Number,
+      default: 0,
+    },
+    itemsOut: {
+      type: Number,
+      default: 0,
+    },
+    items: [
+      {
+        type: itemSchema,
+      },
+    ],
+  },
+  {
+    timestamps: true,
+  },
+);
 
 //Export the model
 const Closet = mongoose.model('Closet', closetSchema);

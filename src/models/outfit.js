@@ -15,8 +15,8 @@ const outfitSchema = new mongoose.Schema(
     },
     item: [
       {
-        type: String,
-        trim: true,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Item',
       },
     ],
     /**
@@ -25,6 +25,14 @@ const outfitSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
+    },
+    tags: [
+      {
+        type: String,
+      },
+    ],
+    recommendations: {
+      type: mongoose.Schema.Types.Mixed,
     },
   },
   {

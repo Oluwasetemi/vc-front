@@ -44,6 +44,31 @@ const typeDefs = gql`
     All
   }
 
+  enum MaterialEnum {
+    Cotton
+    Wool
+    Silk
+    Denim
+    Leather
+    Fur
+    Nylon
+    Polyester
+    Metal
+    Plastic
+    Suede
+    Other
+  }
+
+  enum CategoryEnum {
+    Cocktail
+    Dinner
+    Formal
+    Work
+    Social
+    Casual
+    Other
+  }
+
   type Message {
     message: String
   }
@@ -65,7 +90,7 @@ const typeDefs = gql`
     _empty: String
   }
 
-  type Pickup {
+  type Outfit {
     _empty: String
   }
 
@@ -107,7 +132,11 @@ const typeDefs = gql`
   }
 
   type Closet {
-    _empty: String
+    itemsIn: Int
+    itemsOut: Int
+    items: [Item!]!
+    createdAt: DateTime
+    updatedAt: DateTime
   }
 
   type Vault {
@@ -115,7 +144,18 @@ const typeDefs = gql`
   }
 
   type Item {
-    _empty: String
+    _id: String
+    name: String
+    material: materialEnum
+    category: categoryEnum
+    type: String
+    feature: String
+    color: String
+    brand: String
+    stat: ItemStat
+    matchingOutfit: Outfit
+    createdAt: DateTime
+    updatedAt: DateTime
   }
 
   type StripePayment {
@@ -183,7 +223,6 @@ const typeDefs = gql`
     closet: Closet
     vault: Vault
     reports: [Report]
-    pickups: [Pickup]
     requests: [Request]
     verified: Boolean
     token: String
@@ -346,6 +385,14 @@ const typeDefs = gql`
     Fetch one booking
     """
     fetchOneBooking(id: ID!): Booking!
+    """
+    Fetch one outfit
+    """
+    fetchOneOutfit(id: ID!): Outfit!
+    """
+    Fetch one item
+    """
+    fetchOneItem(id: ID!): Item!
   }
 
   type Mutation {
