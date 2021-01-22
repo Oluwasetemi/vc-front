@@ -282,7 +282,7 @@ const typeDefs = gql`
     """
     the number of items in the request if any
     """
-    numberOfItems: Int
+    numberOfItems: Int!
   }
 
   input updateRequestInput {

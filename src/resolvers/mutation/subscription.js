@@ -70,7 +70,7 @@ const subscriptionMutation = {
         throw new Error('unable to create subscription');
       }
 
-      return sub;
+      return {message: 'Subscription was created successfully'};
     } catch (error) {
       console.error(error.message);
       throw new Error('Error while creating a subscription');
@@ -196,12 +196,12 @@ const subscriptionMutation = {
       });
 
       // update the current user with subscription id
-      await updateUser(
+      const updatedUser = await updateUser(
         {_id: user._id},
         {currentSubscriptionPlan: id, stripeSubscriptionId: subscription.id},
       );
 
-      return {message: 'Subscription was created successfully'};
+      return updatedUser.currentSubscriptionPlan;
     } catch (error) {
       throw new Error(error.message);
     }
