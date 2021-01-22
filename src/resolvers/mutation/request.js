@@ -28,7 +28,7 @@ const requestMutation = {
       );
       const totalRoom = Number(subscriptionPlan.services.storage);
       const availableRoom = totalRoom - user.currentClosetSize;
-
+      console.log(input);
       if (input.numberOfItems > availableRoom) {
         throw new Error(
           'Number of Items is greater than available room size, try on Demand',
