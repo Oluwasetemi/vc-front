@@ -94,6 +94,10 @@ const typeDefs = gql`
     _empty: String
   }
 
+  type ItemStat {
+    _empty: String
+  }
+
   type Meta {
     type: String
     note: String
@@ -146,8 +150,8 @@ const typeDefs = gql`
   type Item {
     _id: String
     name: String
-    material: materialEnum
-    category: categoryEnum
+    material: MaterialEnum
+    category: CategoryEnum
     type: String
     feature: String
     color: String
