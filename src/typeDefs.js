@@ -91,7 +91,16 @@ const typeDefs = gql`
   }
 
   type Outfit {
-    _empty: String
+    _Ii: String
+    name: String
+    description: String
+    items: [Item]
+    user: User
+    tags: [String]
+    "what is the shape of the recommendations"
+    recommendations: Meta
+    createdAt: DateTime
+    updatedAt: DateTime
   }
 
   type ItemStat {
@@ -181,8 +190,22 @@ const typeDefs = gql`
     results: [StripePayment!]!
   }
 
+  type StripeSubscriptionList {
+    perPage: Int
+    end: String
+    start: String
+    hasNextPage: Boolean
+    results: [StripeSubscription!]!
+  }
+
   type StripeSubscription {
     id: String
+    amount: Int
+    created: String
+    type: String
+    status: String
+    currentPeriodStart: String
+    currentPeriodEnd: String
   }
 
   type SubscriptionService {
@@ -212,6 +235,7 @@ const typeDefs = gql`
     name: String
     email: String!
     password: String
+    zip: String
     type: UserEnum!
     source: SourceEnum
     image: String
@@ -225,6 +249,7 @@ const typeDefs = gql`
     locations: [Location]
     currentLocation: Location
     closet: Closet
+    outfit: Outfit
     vault: Vault
     reports: [Report]
     requests: [Request]
@@ -258,11 +283,26 @@ const typeDefs = gql`
     confirmPassword: String!
   }
 
-  input addItemInput {
-    _empty: String
+  input itemInput {
+    name: String
+    material: MaterialEnum
+    category: CategoryEnum
+    type: String
+    feature: String
+    color: String
+    brand: String
+    itemCondition: String
+    pickupId: String
+    image: String
+    largeImage: String
   }
 
-  input createRequest {
+  input addItemInput {
+    items: [itemInput]
+    userId: String
+  }
+
+  input createRequestInput {
     """
     the date format - DD/MM/YYYY
     """
@@ -286,6 +326,10 @@ const typeDefs = gql`
   }
 
   input updateRequestInput {
+    _empty: String
+  }
+
+  input createClosetInput {
     _empty: String
   }
 
@@ -339,11 +383,11 @@ const typeDefs = gql`
     """
     usersByType(type: UserEnum): [User]!
     """
-    Fetch all subscriptions
+    Fetch all subscriptions plan
     """
     fetchAllSubscription: [vcSubscription]!
     """
-    Fetch all subscriptions by type
+    Fetch all subscriptions plan by type
     """
     fetchAllSubscriptionByType(type: SubEnum): [vcSubscription]!
     """
@@ -351,13 +395,21 @@ const typeDefs = gql`
     """
     fetchOneSubscription(id: String): vcSubscription!
     """
-    Fetch all subscriptions by type
+    Fetch all payment from stripe
     """
     fetchAllPaymentFromStripe(
       first: Int = 10
       start: String
       end: String
     ): StripePaymentList!
+    """
+    Fetch all subscription data from stripe
+    """
+    fetchAllSubscriptionFromStripe(
+      first: Int = 10
+      start: String
+      end: String
+    ): StripeSubscriptionList!
     """
     Fetch all user's request to include sorting and pagination
     """
@@ -381,7 +433,7 @@ const typeDefs = gql`
       """
       month: Boolean = false
       """
-      Send the index of the month value here (the date format - "2021-02-28T12:00:00Z")
+      Send the index of the month value here (the date format - '2021-02-28T12:00:00Z')
       """
       day: String!
     ): [Booking!]!
@@ -397,6 +449,10 @@ const typeDefs = gql`
     Fetch one item
     """
     fetchOneItem(id: ID!): Item!
+    """
+    Fetch user's closet
+    """
+    fetchUserCloset: Closet!
   }
 
   type Mutation {
@@ -502,7 +558,7 @@ const typeDefs = gql`
     """
     create a request
     """
-    createRequestMutation(input: createRequest): Request!
+    createRequestMutation(input: createRequestInput): Request!
     """
     update a request
     """
@@ -529,11 +585,37 @@ const typeDefs = gql`
     """
     Add new item(s) to a user's closet
     """
-    addItemToCloset(input: [addItemInput]): Message!
+    addItemToCloset(input: addItemInput): Message!
     """
     Create outfits from a user's closet item
     """
-    createOutfit(items: [String], name: String): Message!
+    createOutfit(
+      items: [String]
+      name: String
+      description: String
+      userId: String
+      tags: [String]
+    ): Message!
+    """
+    update outfits from a user's closet item
+    """
+    updateOutfitMutation(
+      items: [String]
+      name: String
+      description: String
+      userId: String
+      tags: [String]
+    ): Message!
+    """
+    add item to outfits
+    """
+    addItemToOutfit(
+      items: [String]
+      name: String
+      description: String
+      userId: String
+      tags: [String]
+    ): Message!
   }
 
   # type Subscription {

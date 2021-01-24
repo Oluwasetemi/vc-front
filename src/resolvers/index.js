@@ -1,5 +1,8 @@
 import {GraphQLDate, GraphQLDateTime} from 'graphql-iso-date';
 import Location from '../models/location';
+import {findClosetById} from '../services/closet';
+import {findOutfitById} from '../services/outfit';
+import {findRequestById} from '../services/request';
 import {findSubscriptionById} from '../services/subscription';
 import {findUserById} from '../services/user';
 import Mutation from './mutation';
@@ -13,7 +16,7 @@ const resolvers = {
   // Subscription,
   User: {
     locations: async (parent) => {
-      //  filter out the array of hra_id and try to populate it
+      //  filter out the array of request_id and try to populate it
       const locationList = JSON.parse(JSON.stringify(parent.locations));
       const locationDataObject = [];
       for (const each of locationList) {
@@ -43,6 +46,36 @@ const resolvers = {
         return subscription;
       }
       return subscription;
+    },
+    closet: async (parent) => {
+      const closet = await findClosetById(parent.closet);
+
+      if (!closet) {
+        // eslint-disable-next-line no-shadow
+        const closet = null;
+        return closet;
+      }
+      return closet;
+    },
+    outfit: async (parent) => {
+      const outfit = await findOutfitById(parent.outfit);
+
+      if (!outfit) {
+        // eslint-disable-next-line no-shadow
+        const outfit = null;
+        return outfit;
+      }
+      return outfit;
+    },
+    requests: async (parent) => {
+      //  filter out the array of request_id and try to populate it
+      const requestList = JSON.parse(JSON.stringify(parent.requests));
+      const requestDataObject = [];
+      for (const each of requestList) {
+        const eachRequest = await findRequestById(each);
+        requestDataObject.push(JSON.parse(JSON.stringify(eachRequest)));
+      }
+      return requestDataObject;
     },
   },
   Request: {

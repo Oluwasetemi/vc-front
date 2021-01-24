@@ -1,14 +1,16 @@
+import closetQueries from './closet';
 import paymentQueries from './payment';
-import RequestQueries from './request';
+import requestQueries from './request';
 import subscriptionQueries from './subscription';
-import UserQueries from './user';
+import userQueries from './user';
 
 // all the query
 const Query = {
-  ...UserQueries,
+  ...userQueries,
   ...paymentQueries,
   ...subscriptionQueries,
-  ...RequestQueries,
+  ...requestQueries,
+  ...closetQueries,
 };
 
 export default Query;

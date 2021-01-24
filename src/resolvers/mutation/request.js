@@ -6,6 +6,7 @@ import {
   updateRequest,
 } from '../../services/request';
 import {findSubscriptionById} from '../../services/subscription';
+import {updateUser} from '../../services/user';
 import timekit from '../../utils/timekit';
 
 const requestMutation = {
@@ -28,7 +29,7 @@ const requestMutation = {
       );
       const totalRoom = Number(subscriptionPlan.services.storage);
       const availableRoom = totalRoom - user.currentClosetSize;
-      console.log(input);
+
       if (input.numberOfItems > availableRoom) {
         throw new Error(
           'Number of Items is greater than available room size, try on Demand',
@@ -110,6 +111,9 @@ const requestMutation = {
         throw new Error(`unable to create request of ${input.type}`);
       }
 
+      // update the user with their request
+      await updateUser({_id: user._id}, {$push: {requests: req._id}});
+
       return req;
     } catch (error) {
       const message =
@@ -179,6 +183,10 @@ const requestMutation = {
 
       if (!request) {
         throw new Error('Request ID invalid');
+      }
+
+      if (request.status === 'Pending') {
+        return {message: 'Pickup Request accepted successfully Already'};
       }
 
       // confirm the booking

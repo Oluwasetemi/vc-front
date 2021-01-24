@@ -13,7 +13,7 @@ const outfitSchema = new mongoose.Schema(
       lowercase: true,
       trim: true,
     },
-    item: [
+    items: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Item',

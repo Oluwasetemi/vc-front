@@ -511,8 +511,64 @@ query mutation_mutation_re426 {
     where
     description
     start
-     email
+    email
   }
 }
 
+mutation mutation_mutation_re928 {
+  addItemToCloset(
+    input: {
+      items: [
+        {
+          name: "testItem"
+          material: Cotton
+          category: Cocktail
+          type: "Shirt"
+          feature: "Long Sleeve"
+          color: "blue"
+          brand: "LV"
+          itemCondition: "Good"
+          pickupId: "60083dcfae225e2b84841456"
+        }
+        {
+          name: "testItem"
+          material: Cotton
+          category: Cocktail
+          type: "Shirt"
+          feature: "Long Sleeve"
+          color: "blue"
+          brand: "LV"
+          itemCondition: "Good"
+          pickupId: "60083dcfae225e2b84841456"
+        }
+        {
+          name: "testItem"
+          material: Cotton
+          category: Cocktail
+          type: "Shirt"
+          feature: "Long Sleeve"
+          color: "blue"
+          brand: "LV"
+          itemCondition: "Good"
+          pickupId: "60083dcfae225e2b84841456"
+        }
+      ]
+      userId: "6002ff319c23052cf93d7b70"
+    }
+  ) {
+    message
+  }
+}
+
+mutation mutation_mutation_re508 {
+  createOutfit(
+    items: ["600cdd3a16be467d34594056", "600ce2d31d25c77eb9117450"]
+    name: "test outfit"
+    description: "testing the create outfit mutation"
+    userId: "6002ff319c23052cf93d7b70"
+    tags: ["office", "coorperate"]
+  ) {
+    message
+  }
+}
 ```

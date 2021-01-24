@@ -37,3 +37,7 @@
 - Create new mutation `acceptPickupRequest` and `sendOutPickup`
 - Add `fetchAllRequest` and `fetchOneRequest` query to fetch request by the admin.
 - Add `fetchBooking` and `fetchOneBooking` query to booking from TimeKit.
+
+## v0.1.8 Setup the addItemToCloset and createOutfit
+
+- `addItemToCloset` and `createOutfit` mutation created.

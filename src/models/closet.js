@@ -68,9 +68,23 @@ const itemSchema = new mongoose.Schema(
     stat: {
       type: mongoose.Schema.Types.Mixed,
     },
-    matchingOutfit: {
+    matchingOutfit: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Outfit',
+      },
+    ],
+    pickupId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Outfit',
+      ref: 'Request',
+    },
+    image: {
+      type: String,
+      default: 'https://via.placeholder.com/350.png',
+    },
+    largeImage: {
+      type: String,
+      default: 'https://via.placeholder.com/700.png',
     },
   },
   {
