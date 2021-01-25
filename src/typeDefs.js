@@ -91,7 +91,7 @@ const typeDefs = gql`
   }
 
   type Outfit {
-    _Ii: String
+    _id: String
     name: String
     description: String
     items: [Item]
@@ -133,6 +133,16 @@ const typeDefs = gql`
     data: [Request!]!
   }
 
+  type OutfitWithPaginationSortingFiltering {
+    total: Int
+    data: [Outfit!]!
+  }
+
+  type StylistWithPaginationSortingFiltering {
+    total: Int
+    data: [Stylist!]!
+  }
+
   type Booking {
     id: String
     state: String
@@ -145,9 +155,23 @@ const typeDefs = gql`
   }
 
   type Closet {
+    _id: ID
     itemsIn: Int
     itemsOut: Int
     items: [Item!]!
+    createdAt: DateTime
+    updatedAt: DateTime
+  }
+
+  type Stylist {
+    _id: ID
+    name: String
+    email: String
+    bio: String
+    image: String
+    tags: [String]
+    users: [User]
+    strength: [String]
     createdAt: DateTime
     updatedAt: DateTime
   }
@@ -165,6 +189,8 @@ const typeDefs = gql`
     feature: String
     color: String
     brand: String
+    image: String
+    largeImage: String
     stat: ItemStat
     matchingOutfit: Outfit
     createdAt: DateTime
@@ -302,6 +328,15 @@ const typeDefs = gql`
     userId: String
   }
 
+  input stylistInput {
+    name: String
+    email: String
+    bio: String
+    image: String
+    tags: [String]
+    strength: [String]
+  }
+
   input createRequestInput {
     """
     the date format - DD/MM/YYYY
@@ -421,6 +456,24 @@ const typeDefs = gql`
       sortBy: SortableRequestField = createdAt
     ): RequestWithPaginationSortingFiltering
     """
+    Fetch all outfit to include sorting and pagination
+    """
+    fetchAllOutfit(
+      first: Int = 50
+      start: Int = 0
+      sort: SortDirection = descending
+      sortBy: SortableRequestField = createdAt
+    ): OutfitWithPaginationSortingFiltering
+    """
+    Fetch all stylist to include sorting and pagination
+    """
+    fetchAllStylist(
+      first: Int = 50
+      start: Int = 0
+      sort: SortDirection = descending
+      sortBy: SortableRequestField = createdAt
+    ): StylistWithPaginationSortingFiltering
+    """
     Fetch one user's request
     """
     fetchOneRequest(id: ID!): Request!
@@ -446,6 +499,10 @@ const typeDefs = gql`
     """
     fetchOneOutfit(id: ID!): Outfit!
     """
+    Fetch one stylist
+    """
+    fetchOneStylist(id: ID!): Stylist!
+    """
     Fetch one item
     """
     fetchOneItem(id: ID!): Item!
@@ -453,6 +510,10 @@ const typeDefs = gql`
     Fetch user's closet
     """
     fetchUserCloset: Closet!
+    """
+    Fetch user's closet all items
+    """
+    fetchAllItem: [Item]!
   }
 
   type Mutation {
@@ -616,6 +677,14 @@ const typeDefs = gql`
       userId: String
       tags: [String]
     ): Message!
+    """
+    create a stylist
+    """
+    createStylist(input: stylistInput): Message!
+    """
+    update a stylist
+    """
+    updateStylistMutation(id: String, input: stylistInput): Message!
   }
 
   # type Subscription {

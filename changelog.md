@@ -38,6 +38,9 @@
 - Add `fetchAllRequest` and `fetchOneRequest` query to fetch request by the admin.
 - Add `fetchBooking` and `fetchOneBooking` query to booking from TimeKit.
 
-## v0.1.8 Setup the addItemToCloset and createOutfit
+## v0.1.8 bb4467f Setup the addItemToCloset and createOutfit
 
 - `addItemToCloset` and `createOutfit` mutation created.
+- stylist implemented - `createStylist`, `updateStylistMutation`, `fetchOneStylist` and `fetchAllStylist`.
+- `fetchOneOutfit` and `fetchAllOutfit` query created to fetch outfit
+- `fetchUserCloset`, `fetchOneItem` and `fetchAllItem` query to fetch closet of the `me` - current logged in user and item.

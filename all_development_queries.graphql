@@ -568,3 +568,168 @@ mutation mutation_mutation_re508 {
     message
   }
 }
+
+mutation mutation_mutation_re509 {
+  createStylist(
+    input: {
+      name: "Stylist One"
+      email: "stylist@mailinator.com"
+      bio: "bio"
+      tags: ["great", "good"]
+      strength: ["culture", "strength"]
+    }
+  ) {
+    message
+  }
+}
+
+mutation mutation_mutation_re93 {
+  updateStylistMutation(
+    id: "600ed98ac295530fb7e3eb1d"
+    input: {
+      name: "Stylist One"
+      tags: ["bad", "notgood", "dance", "good", "great"]
+      bio: "updated bio"
+    }
+  ) {
+    message
+  }
+}
+
+query mutation_mutation_re202 {
+  fetchOneOutfit(id: "600cfc7335602a8718b04181") {
+    _id
+    name
+    description
+    items {
+      _id
+      name
+    }
+    user {
+      _id
+      email
+    }
+    tags
+    recommendations {
+      type
+      note
+    }
+    createdAt
+    updatedAt
+  }
+}
+
+query mutation_mutation_re699 {
+  fetchOneStylist(id: "600ed98ac295530fb7e3eb1d") {
+    _id
+    name
+    email
+    bio
+    image
+    tags
+    strength
+    createdAt
+    updatedAt
+  }
+}
+
+query mutation_mutation_re133 {
+  fetchOneItem(id: "600cdd3a16be467d34594056") {
+    _id
+    name
+    material
+    category
+    type
+    feature
+    color
+    brand
+    stat {
+      _empty
+    }
+    matchingOutfit {
+      _id
+      name
+    }
+    createdAt
+    updatedAt
+  }
+}
+
+query mutation_mutation_re888 {
+  fetchUserCloset {
+    itemsIn
+    itemsOut
+    items {
+      _id
+      name
+      image
+    }
+    createdAt
+    updatedAt
+  }
+}
+
+query mutation_mutation_re526 {
+  fetchAllItem {
+    _id
+    name
+    material
+    category
+    type
+    feature
+    color
+    brand
+    stat {
+      _empty
+    }
+    matchingOutfit {
+      _id
+      name
+    }
+    createdAt
+    updatedAt
+  }
+}
+
+query mutation_mutation_re32 {
+  fetchAllOutfit {
+    total
+    data {
+      _id
+      name
+      description
+      items {
+        _id
+        name
+      }
+      user {
+        _id
+        email
+      }
+      tags
+      recommendations {
+        type
+        note
+      }
+      createdAt
+      updatedAt
+    }
+  }
+}
+
+query mutation_mutation_re801 {
+  fetchAllStylist {
+    total
+    data {
+      _id
+      name
+      email
+      bio
+      image
+      tags
+      strength
+      createdAt
+      updatedAt
+    }
+  }
+}

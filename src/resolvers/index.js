@@ -1,7 +1,7 @@
 import {GraphQLDate, GraphQLDateTime} from 'graphql-iso-date';
 import Location from '../models/location';
 import {findClosetById} from '../services/closet';
-import {findOutfitById} from '../services/outfit';
+import {fetchOneItem, findOutfitById} from '../services/outfit';
 import {findRequestById} from '../services/request';
 import {findSubscriptionById} from '../services/subscription';
 import {findUserById} from '../services/user';
@@ -98,6 +98,29 @@ const resolvers = {
         return location;
       }
       return location;
+    },
+  },
+  Outfit: {
+    user: async (parent) => {
+      const user = await findUserById(parent.user);
+
+      if (!user) {
+        // eslint-disable-next-line no-shadow
+        const user = null;
+        return user;
+      }
+      return user;
+    },
+    items: async (parent) => {
+      //  filter out the array of request_id and try to populate it
+      const itemsList = JSON.parse(JSON.stringify(parent.items));
+      const user = await findUserById(parent.user);
+      const itemsDataObject = [];
+      for (const each of itemsList) {
+        const eachItem = await fetchOneItem(each, user.closet.toString());
+        itemsDataObject.push(JSON.parse(JSON.stringify(eachItem)));
+      }
+      return itemsDataObject;
     },
   },
 };

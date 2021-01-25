@@ -29,17 +29,21 @@ const closetMutation = {
       // find the user we want to add item to their closet
       const closetOwner = await findUserById(input.userId);
 
-      if (closetOwner) {
+      if (!closetOwner) {
         throw new Error('Closet owner not found');
       }
 
       // if the user has a closet already, then we need to add item to the closet and update currentClosetSize
       if (closetOwner.closet) {
         // fetch the current users closet
-        const myCloset = await findClosetById(user.closet);
+        const myCloset = await findClosetById(closetOwner.closet);
+
+        if (!myCloset) {
+          throw new Error('closet not found');
+        }
 
         const updatedCloset = await updateCloset(
-          {_id: user.closet},
+          {_id: myCloset._id},
           {
             itemsIn: myCloset.itemsIn + input.items.length,
             $push: {items: input.items},

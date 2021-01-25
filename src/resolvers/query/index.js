@@ -1,6 +1,8 @@
 import closetQueries from './closet';
+import outfitQueries from './outfit';
 import paymentQueries from './payment';
 import requestQueries from './request';
+import stylistQueries from './stylist';
 import subscriptionQueries from './subscription';
 import userQueries from './user';
 
@@ -11,6 +13,8 @@ const Query = {
   ...subscriptionQueries,
   ...requestQueries,
   ...closetQueries,
+  ...outfitQueries,
+  ...stylistQueries,
 };
 
 export default Query;

@@ -1,4 +1,5 @@
 import Outfit from '../models/outfit';
+import {findClosetById} from './closet';
 
 export const createOutfit = (data) => Outfit.create(data);
 
@@ -24,26 +25,16 @@ export const findOutfitsByIds = async (ids) => {
 };
 
 export const findAllOutfits = async (query = {}) => {
-  let req;
-  let total;
   const sortObject = {};
   const limit = query.first;
   const skip = query.start;
   if (query.sort && query.sortBy) {
     sortObject[query.sortBy] = `${query.sort}`;
   }
-  if (query.type === 'All') {
-    req = await Outfit.find({}).limit(limit).skip(skip).sort(sortObject);
-    total = await Outfit.countDocuments({});
-  } else {
-    req = await Outfit.find({type: query.type})
-      .limit(limit)
-      .skip(skip)
-      .sort(sortObject);
-    total = await Outfit.countDocuments({type: query.type});
-  }
+  const outfit = await Outfit.find({}).limit(limit).skip(skip).sort(sortObject);
+  const total = await Outfit.countDocuments({});
 
-  return {req, total: total};
+  return {outfit, total: total};
 };
 export const removeOutfit = (id) => Outfit.findByIdAndRemove(id);
 
@@ -59,4 +50,13 @@ export const search = async ({searchInput, id}) => {
   ).sort({score: {$meta: 'textScore'}});
 
   return outfit;
+};
+
+export const fetchOneItem = async (id, closetId) => {
+  // fetch the closet
+  const closet = await findClosetById(closetId);
+
+  const item = closet.items.id(id);
+
+  return item;
 };
