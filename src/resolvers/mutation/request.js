@@ -11,7 +11,7 @@ import timekit from '../../utils/timekit';
 
 const requestMutation = {
   // subscription
-  async createRequestMutation(_, {input}, {user}) {
+  async createRequestMutation(_, {input}, {user, pubsub}) {
     try {
       // must be done by a user
       if (!user) {
@@ -110,6 +110,9 @@ const requestMutation = {
       if (!req) {
         throw new Error(`unable to create request of ${input.type}`);
       }
+
+      // publish the result
+      pubsub.publish('new-request', {newRequest: req});
 
       // update the user with their request
       await updateUser({_id: user._id}, {$push: {requests: req._id}});

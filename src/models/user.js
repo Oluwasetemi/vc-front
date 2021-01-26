@@ -75,10 +75,12 @@ const userSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Closet',
     },
-    outfit: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Outfit',
-    },
+    outfit: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Outfit',
+      },
+    ],
     vault: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Vault',

@@ -736,4 +736,215 @@ query mutation_mutation_re801 {
     }
   }
 }
+
+query mutation_mutation_re241 {
+  userById(id: "6005971b982311f5bb7d1f79") {
+    _id
+    name
+    email
+    password
+    type
+    phone
+    source
+    image
+    gender
+    nationality
+    resetPasswordExpires
+    resetPasswordToken
+    otpExpires
+    otp
+    verified
+    token
+    locations {
+      _id
+      location
+      current
+      createdAt
+    }
+    currentLocation {
+      _id
+      location
+      createdAt
+      current
+    }
+    currentSubscriptionPlan {
+      _id
+      name
+      amount
+      stripeProductId
+      stripePriceId
+    }
+    stripeSubscriptionId
+    closet {
+      _id
+      itemsIn
+      items {
+        _id
+        name
+      }
+    }
+    outfit {
+      _id
+    }
+  }
+}
+
+query mutation_mutation_re330 {
+  userByIds(ids: ["5fd0b55f08471580717aaac3", "5fd010c92eab2f7c7ea266b0"]) {
+    _id
+    name
+    email
+    password
+    type
+    phone
+    source
+    image
+    gender
+    nationality
+    resetPasswordExpires
+    resetPasswordToken
+    otpExpires
+    otp
+    verified
+    token
+    locations {
+      _id
+      location
+      current
+      createdAt
+    }
+    currentLocation {
+      _id
+      location
+      createdAt
+      current
+    }
+    currentSubscriptionPlan {
+      _id
+      name
+      amount
+      stripeProductId
+      stripePriceId
+    }
+    stripeSubscriptionId
+    closet {
+      _id
+      itemsIn
+      items {
+        _id
+        name
+      }
+    }
+  }
+}
+
+query mutation_mutation_re14 {
+  users {
+    _id
+    name
+    email
+    password
+    type
+    phone
+    source
+    image
+    gender
+    nationality
+    resetPasswordExpires
+    resetPasswordToken
+    otpExpires
+    otp
+    verified
+    token
+    locations {
+      _id
+      location
+      current
+      createdAt
+    }
+    currentLocation {
+      _id
+      location
+      createdAt
+      current
+    }
+    currentSubscriptionPlan {
+      _id
+      name
+      amount
+      stripeProductId
+      stripePriceId
+    }
+    stripeSubscriptionId
+    closet {
+      _id
+      itemsIn
+      items {
+        _id
+        name
+      }
+    }
+  }
+}
+
+query mutation_mutation_re765 {
+  usersByType(type: ADMIN) {
+    _id
+    name
+    email
+    password
+    type
+    phone
+    source
+    image
+    gender
+    nationality
+    resetPasswordExpires
+    resetPasswordToken
+    otpExpires
+    otp
+    verified
+    token
+    locations {
+      _id
+      location
+      current
+      createdAt
+    }
+    currentLocation {
+      _id
+      location
+      createdAt
+      current
+    }
+    currentSubscriptionPlan {
+      _id
+      name
+      amount
+      stripeProductId
+      stripePriceId
+    }
+    stripeSubscriptionId
+    closet {
+      _id
+      itemsIn
+      items {
+        _id
+        name
+      }
+    }
+  }
+}
+
+query mutation_mutation_re385 {
+  fetchDashboard {
+    request
+    delivery
+    pickup
+    laundry
+    stylistRequest
+    closet
+    vault
+  }
+}
 ```

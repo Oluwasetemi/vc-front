@@ -256,6 +256,16 @@ const typeDefs = gql`
     updatedAt: DateTime
   }
 
+  type Dashboard {
+    request: Int
+    delivery: Int
+    pickup: Int
+    laundry: Int
+    stylistRequest: Int
+    closet: Int
+    vault: Int
+  }
+
   type User {
     _id: ID!
     name: String
@@ -275,7 +285,7 @@ const typeDefs = gql`
     locations: [Location]
     currentLocation: Location
     closet: Closet
-    outfit: Outfit
+    outfit: [Outfit]!
     vault: Vault
     reports: [Report]
     requests: [Request]
@@ -514,6 +524,10 @@ const typeDefs = gql`
     Fetch user's closet all items
     """
     fetchAllItem: [Item]!
+    """
+    Fetch admin's dashboard
+    """
+    fetchDashboard: Dashboard!
   }
 
   type Mutation {
@@ -687,9 +701,9 @@ const typeDefs = gql`
     updateStylistMutation(id: String, input: stylistInput): Message!
   }
 
-  # type Subscription {
-  #   newGreetings: Greetings
-  # }
+  type Subscription {
+    newRequest: Request!
+  }
 `;
 
 export default typeDefs;

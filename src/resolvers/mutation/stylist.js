@@ -51,6 +51,10 @@ const stylistMutation = {
 
       const stylistToBeUpdated = await findStylistById(id);
 
+      if (!stylistToBeUpdated) {
+        throw new Error('the stylist to update not found');
+      }
+
       // loop thru dataToBeUpdated and add to the subscriptionToBeUpdated
       // name, email, bio, image, tags, strength
       if (input) {

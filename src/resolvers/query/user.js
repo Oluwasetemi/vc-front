@@ -1,5 +1,7 @@
 /* eslint-disable no-shadow */
 
+import {fetchClosetCount} from '../../services/closet';
+import {fetchRequestCount} from '../../services/request';
 import {findAllUsers, findUserById, findUsersByIds} from '../../services/user';
 
 const userQueries = {
@@ -103,6 +105,38 @@ const userQueries = {
     }
 
     return users;
+  },
+  async fetchDashboard(_, {type}, {user}) {
+    try {
+      // must be done by an admin
+      if (!user) {
+        throw new Error('You must be logged In');
+      }
+
+      if (user.type !== 'ADMIN') {
+        throw new Error('You do not have the permission to do this');
+      }
+
+      const request = await fetchRequestCount();
+      const delivery = await fetchRequestCount({type: 'Delivery'});
+      const stylistRequest = await fetchRequestCount({type: 'Stylist'});
+      const pickup = await fetchRequestCount({type: 'Pickup'});
+      const laundry = 10;
+      const closet = await fetchClosetCount();
+      const vault = 10;
+
+      return {
+        request,
+        delivery,
+        stylistRequest,
+        pickup,
+        laundry,
+        closet,
+        vault,
+      };
+    } catch (error) {
+      throw new Error(error.message);
+    }
   },
 };
 

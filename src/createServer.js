@@ -13,7 +13,6 @@ import recommended from 'remark-preset-lint-recommended';
 import report from 'vfile-reporter';
 import dbConnection from './db';
 import resolvers from './resolvers';
-import {findUserById} from './services/user';
 import typeDefs from './typeDefs';
 import {findUserFromToken} from './utils/auth';
 import stripe from './utils/stripe';
@@ -54,18 +53,27 @@ async function startServer() {
         keepAlive: 10000,
         async onConnect({authToken}) {
           if (authToken) {
-            const user = await findUserById(authToken);
-            return {user};
+            try {
+              const user = await findUserFromToken(authToken);
+
+              if (!user) {
+                throw new Error('Invalid token');
+              }
+
+              return {user};
+            } catch (error) {
+              return {};
+            }
           }
         },
       },
       async context({req, connection}) {
-        if (connection) {
-          return connection.context;
+        const context = {stripe};
+        const headers = req ? req.headers : connection.context.Authorization;
+        if (!headers) {
+          return {...context, pubsub};
         }
-
-        const {origin, authorization} = req.headers;
-        const context = {origin, stripe};
+        const authorization = headers && headers.authorization;
 
         try {
           const matches = authorization.match(/^bearer (\S+)$/i);
@@ -75,9 +83,9 @@ async function startServer() {
             throw new Error('Invalid token');
           }
 
-          return {...context, user};
+          return {...context, user, pubsub};
         } catch (error) {
-          return context;
+          return {...context, pubsub};
         }
       },
     });

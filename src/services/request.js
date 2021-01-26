@@ -60,3 +60,8 @@ export const search = async ({searchInput, id}) => {
 
   return request;
 };
+
+export const fetchRequestCount = async (data = {}) => {
+  const count = await Request.countDocuments(data);
+  return count;
+};

@@ -1,9 +1,8 @@
 // all the subscription
 const subscription = {
-  // newGreetings: {
-  //   subscribe: (parent, args, {pubsub}) =>
-  //     pubsub.asyncIterator('new-greetings'),
-  // },
+  newRequest: {
+    subscribe: (parent, args, {pubsub}) => pubsub.asyncIterator('new-request'),
+  },
 };
 
 export default subscription;

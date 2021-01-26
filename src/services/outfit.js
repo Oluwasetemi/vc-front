@@ -56,7 +56,7 @@ export const fetchOneItem = async (id, closetId) => {
   // fetch the closet
   const closet = await findClosetById(closetId);
 
-  const item = closet.items.id(id);
+  const item = closet && closet.items && closet.items.id(id);
 
   return item;
 };

@@ -7,13 +7,14 @@ import {findSubscriptionById} from '../services/subscription';
 import {findUserById} from '../services/user';
 import Mutation from './mutation';
 import Query from './query';
+import Subscription from './subscription';
 
 const resolvers = {
   Date: GraphQLDate,
   DateTime: GraphQLDateTime,
   Query,
   Mutation,
-  // Subscription,
+  Subscription,
   User: {
     locations: async (parent) => {
       //  filter out the array of request_id and try to populate it
@@ -58,14 +59,14 @@ const resolvers = {
       return closet;
     },
     outfit: async (parent) => {
-      const outfit = await findOutfitById(parent.outfit);
+      const outfitList = JSON.parse(JSON.stringify(parent.outfit));
 
-      if (!outfit) {
-        // eslint-disable-next-line no-shadow
-        const outfit = null;
-        return outfit;
+      const outfitDataObject = [];
+      for (const each of outfitList) {
+        const eachOutfit = await findOutfitById(each);
+        outfitDataObject.push(JSON.parse(JSON.stringify(eachOutfit)));
       }
-      return outfit;
+      return outfitDataObject;
     },
     requests: async (parent) => {
       //  filter out the array of request_id and try to populate it
@@ -117,7 +118,8 @@ const resolvers = {
       const user = await findUserById(parent.user);
       const itemsDataObject = [];
       for (const each of itemsList) {
-        const eachItem = await fetchOneItem(each, user.closet.toString());
+        const eachItem =
+          (await fetchOneItem(each, user.closet.toString())) || [];
         itemsDataObject.push(JSON.parse(JSON.stringify(eachItem)));
       }
       return itemsDataObject;

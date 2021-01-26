@@ -24,7 +24,10 @@ const outfitMutation = {
       });
 
       // add the created closet to the user
-      await updateUser({_id: args.userId}, {outfit: createdOutfit._id});
+      await updateUser(
+        {_id: args.userId},
+        {$push: {outfit: createdOutfit._id}},
+      );
 
       return {message: `outfit created successfully`};
     } catch (error) {

@@ -44,3 +44,5 @@
 - stylist implemented - `createStylist`, `updateStylistMutation`, `fetchOneStylist` and `fetchAllStylist`.
 - `fetchOneOutfit` and `fetchAllOutfit` query created to fetch outfit
 - `fetchUserCloset`, `fetchOneItem` and `fetchAllItem` query to fetch closet of the `me` - current logged in user and item.
+- `fetchDashboard` query for admin and outfit data structure modified.
+- `newRequest` subscription created.

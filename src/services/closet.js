@@ -60,3 +60,8 @@ export const search = async ({searchInput, id}) => {
 
   return closet;
 };
+
+export const fetchClosetCount = async (data = {}) => {
+  const count = await Closet.countDocuments(data);
+  return count;
+};
