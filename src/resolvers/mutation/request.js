@@ -97,12 +97,16 @@ const requestMutation = {
         pickupLocation: location.id,
         user: user._id,
         bookingId: booking.data.id,
-        contactPhoneNumber: user.phone,
+        contactPhoneNumber: input.contactPhoneNumber
+          ? input.contactPhoneNumber
+          : user.phone,
         datetimePicked: dateISOFormat,
         metaData: {
           // anyData about the pick
-          type: 'pickup',
+          type: input.type,
+          note: input.note ? input.note : 'no note',
         },
+        items: input.type === 'Delivery' ? input.items : [],
       };
 
       const req = await createRequest(reqData);

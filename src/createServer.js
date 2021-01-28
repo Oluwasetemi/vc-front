@@ -49,24 +49,6 @@ async function startServer() {
       typeDefs,
       resolvers,
       introspection: true,
-      subscriptions: {
-        keepAlive: 10000,
-        async onConnect({authToken}) {
-          if (authToken) {
-            try {
-              const user = await findUserFromToken(authToken);
-
-              if (!user) {
-                throw new Error('Invalid token');
-              }
-
-              return {user};
-            } catch (error) {
-              return {};
-            }
-          }
-        },
-      },
       async context({req, connection}) {
         const context = {stripe};
         const headers = req ? req.headers : connection.context.Authorization;

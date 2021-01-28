@@ -348,26 +348,22 @@ const typeDefs = gql`
   }
 
   input createRequestInput {
-    """
-    the date format - DD/MM/YYYY
-    """
+    "the date format - DD/MM/YYYY"
     date: String!
-    """
-    the time format(24hr) - HH:MM
-    """
+    "the time format(24hr) - HH:MM"
     time: String!
-    """
-    user might decide to add a new location or user currentLocation or one of the stored locations
-    """
+    "user might decide to add a new location or user currentLocation or one of the stored locations"
     pickupLocation: String
-    """
-    the type of the request range from pickup, delivery, stylist, outfit or helpmepack
-    """
+    "the type of the request range from pickup, delivery, stylist, outfit or helpmepack"
     type: RequestEnum
-    """
-    the number of items in the request if any
-    """
+    "the number of items in the request if any"
     numberOfItems: Int!
+    "the contactPhoneNumber of user making a request if any the user's default will be used"
+    contactPhoneNumber: String
+    "any information about the request the user want to share with virtual closet"
+    note: String
+    "if request type is delivery then user must pick items from their closet to add"
+    items: [String]
   }
 
   input updateRequestInput {
