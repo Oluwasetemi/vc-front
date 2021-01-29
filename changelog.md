@@ -46,3 +46,4 @@
 - `fetchUserCloset`, `fetchOneItem` and `fetchAllItem` query to fetch closet of the `me` - current logged in user and item.
 - `fetchDashboard` query for admin and outfit data structure modified.
 - `newRequest` subscription created.
+- update creating Delivery type of request.
