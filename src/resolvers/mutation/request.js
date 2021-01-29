@@ -192,8 +192,13 @@ const requestMutation = {
         throw new Error('Request ID invalid');
       }
 
+      // for test purposes
       if (request.status === 'Pending') {
-        return {message: 'Pickup Request accepted successfully Already'};
+        return request;
+      }
+
+      if (request.status === 'Active') {
+        return request;
       }
 
       // confirm the booking
