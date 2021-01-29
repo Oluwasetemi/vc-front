@@ -617,7 +617,7 @@ const typeDefs = gql`
     """
     create a stripe subscription
     """
-    makePayment(id: String, token: String): Message!
+    makePayment(id: String, token: String): vcSubscription!
     """
     upgrade a stripe subscription
     """
