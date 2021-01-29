@@ -644,11 +644,11 @@ const typeDefs = gql`
     """
     accept a pickup request (admin)
     """
-    acceptPickupRequest(id: ID, bookingId: String): Message!
+    acceptRequest(id: ID, bookingId: String): Request!
     """
     sendOut a pickup request (admin)
     """
-    sendOutPickup(id: ID): Message!
+    sendOutRequest(id: ID): Message!
     """
     confirm a pickup request (admin)
     """

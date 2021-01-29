@@ -174,7 +174,7 @@ const requestMutation = {
       throw new Error('Error while deleting a subscription');
     }
   },
-  async acceptPickupRequest(_, {id, bookingId}, {user}) {
+  async acceptRequest(_, {id, bookingId}, {user}) {
     try {
       // must be done by an admin
       if (!user) {
@@ -221,13 +221,13 @@ const requestMutation = {
         throw new Error('Error while updating the Request');
       }
 
-      return {message: 'Pickup Request accepted successfully'};
+      return updatedRequest;
     } catch (error) {
       console.log(error.message);
       throw new Error('Error while accepting a pickup');
     }
   },
-  async sendOutPickup(_, {id}, {user}) {
+  async sendOutRequest(_, {id}, {user}) {
     try {
       // must be done by an admin
       if (!user) {
