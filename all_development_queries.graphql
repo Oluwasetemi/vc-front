@@ -920,3 +920,31 @@ query mutation_mutation_re385 {
     vault
   }
 }
+
+mutation mutation_mutation_re678 {
+  updateUserOutfitMutation(
+    id: "600efb22a2a538af358bc966"
+    dataToBeUpdated: {
+      items: ["600ef9f2a2a538af358bc964", "600ef9f2a2a538af358bc965"]
+      name: "updated outfit"
+      description: "updated outfit"
+      tags: ["office", "updated items", "again tags"]
+      category: Work
+    }
+  ) {
+    _id
+    name
+  }
+}
+
+mutation mutation_mutation_re417 {
+  likeAnOutfit(id: "600ef9f2a2a538af358bc964") {
+    message
+  }
+}
+
+mutation mutation_mutation_re730 {
+  unlikeAnOutfit(id: "600ef9f2a2a538af358bc965") {
+    message
+  }
+}
