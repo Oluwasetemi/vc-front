@@ -99,6 +99,8 @@ const typeDefs = gql`
     tags: [String]
     "what is the shape of the recommendations"
     recommendations: Meta
+    category: CategoryEnum
+    liked: Boolean
     createdAt: DateTime
     updatedAt: DateTime
   }
@@ -305,6 +307,15 @@ const typeDefs = gql`
     password: String!
     location: String!
     zip: String!
+  }
+
+  input OutfitInput {
+    items: [String]
+    name: String
+    description: String
+    userId: String
+    tags: [String]
+    category: CategoryEnum
   }
 
   input updateUserInput {
@@ -668,7 +679,15 @@ const typeDefs = gql`
       tags: [String]
     ): Message!
     """
-    update outfits from a user's closet item
+    update outfits from a user's closet item (authenticated user)
+    """
+    updateUserOutfitMutation(
+      "id of the outfit to be updated"
+      id: ID!
+      dataToBeUpdated: OutfitInput
+    ): Outfit!
+    """
+    update outfits from a user's closet item (current user)
     """
     updateOutfitMutation(
       items: [String]
@@ -680,13 +699,7 @@ const typeDefs = gql`
     """
     add item to outfits
     """
-    addItemToOutfit(
-      items: [String]
-      name: String
-      description: String
-      userId: String
-      tags: [String]
-    ): Message!
+    addItemToOutfit(id: ID!, items: [String]): Message!
     """
     create a stylist
     """
@@ -695,6 +708,14 @@ const typeDefs = gql`
     update a stylist
     """
     updateStylistMutation(id: String, input: stylistInput): Message!
+    """
+    like an outfit
+    """
+    likeAnOutfit(id: ID): Message!
+    """
+    unlike an outfit
+    """
+    unlikeAnOutfit(id: ID): Message!
   }
 
   type Subscription {

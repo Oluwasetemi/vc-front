@@ -36,6 +36,13 @@ const requestSchema = new mongoose.Schema(
       enum: ['Active', 'Confirmed', 'UnConfirmed', 'Pending'],
       default: 'UnConfirmed',
     },
+    catalogueItems: {
+      type: Boolean,
+      default: false,
+    },
+    returnDate: {
+      type: Date,
+    },
   },
   {
     timestamps: true,
