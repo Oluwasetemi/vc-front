@@ -47,3 +47,5 @@
 - `fetchDashboard` query for admin and outfit data structure modified.
 - `newRequest` subscription created.
 - update creating Delivery type of request.
+- add field `category` and `liked` to type `Outfit`. Create and input `OutfitInput` and created mutation `updateUserOutfitMutation`, `addItemToOutfit`, `likeAnOutfit` and `unlikeAnOutfit`.
+- Fix big on `makePayment` to return current subscription plan of the user.

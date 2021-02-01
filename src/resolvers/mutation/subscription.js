@@ -199,7 +199,7 @@ const subscriptionMutation = {
       const updatedUser = await updateUser(
         {_id: user._id},
         {currentSubscriptionPlan: id, stripeSubscriptionId: subscription.id},
-      );
+      ).populate('currentSubscriptionPlan');
 
       return updatedUser.currentSubscriptionPlan;
     } catch (error) {

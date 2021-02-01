@@ -244,10 +244,19 @@ const requestMutation = {
       }
 
       // update the pickup request data from unconfirmed to Pending
-      const updatedRequest = await updateRequest({_id: id}, {status: 'Active'});
+      const requestToBeUpdated = await findRequestById(id);
 
-      if (!updatedRequest) {
+      if (!requestToBeUpdated) {
         throw new Error('Error while updating the Request');
+      }
+
+      // for test purposes
+      if (requestToBeUpdated.status === 'Unconfirmed') {
+        return new Error('Request cannot be sent out');
+      }
+
+      if (requestToBeUpdated.status === 'Active') {
+        return requestToBeUpdated;
       }
 
       return {message: 'Pickup Request sent out successfully'};

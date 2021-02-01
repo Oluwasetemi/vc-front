@@ -34,6 +34,23 @@ const outfitSchema = new mongoose.Schema(
     recommendations: {
       type: mongoose.Schema.Types.Mixed,
     },
+    liked: {
+      type: Boolean,
+    },
+    category: {
+      type: String,
+      enum: [
+        'Cocktail',
+        'Dinner',
+        'Formal',
+        'Work',
+        'Social',
+        'Casual',
+        'Other',
+      ],
+      default: 'Other',
+      trim: true,
+    },
   },
   {
     timestamps: true,

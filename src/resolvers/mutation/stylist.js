@@ -59,8 +59,6 @@ const stylistMutation = {
       // name, email, bio, image, tags, strength
       if (input) {
         for (const each in input) {
-          stylistToBeUpdated[each] = input[each];
-
           if (Object.keys(input).includes('tags')) {
             stylistToBeUpdated.tags.addToSet(...input.tags);
           }
@@ -68,6 +66,7 @@ const stylistMutation = {
           if (Object.keys(input).includes('strength')) {
             stylistToBeUpdated.strength.addToSet(...input.strength);
           }
+          stylistToBeUpdated[each] = input[each];
         }
       }
 
