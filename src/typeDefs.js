@@ -375,6 +375,10 @@ const typeDefs = gql`
     note: String
     "if request type is delivery then user must pick items from their closet to add"
     items: [String]
+    "if request type is pickup and the user just want her items cataloged"
+    catalogueItems: Boolean
+    "if request type is pickup and the user just want her items cataloged, the date the item will be returned to user"
+    returnDate: Boolean
   }
 
   input updateRequestInput {

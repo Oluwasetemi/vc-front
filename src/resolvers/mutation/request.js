@@ -107,6 +107,14 @@ const requestMutation = {
           note: input.note ? input.note : 'no note',
         },
         items: input.type === 'Delivery' ? input.items : [],
+        catalogueItems:
+          input.catalogueItems && input.type === 'Pickup'
+            ? input.catalogueItems
+            : false,
+        returnDate:
+          input.type === 'Pickup' && input.catalogueItems
+            ? input.returnDate
+            : null,
       };
 
       const req = await createRequest(reqData);
