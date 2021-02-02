@@ -267,7 +267,9 @@ const requestMutation = {
         return requestToBeUpdated;
       }
 
-      return requestToBeUpdated;
+      requestToBeUpdated.status = 'Active';
+
+      return requestToBeUpdated.save();
     } catch (error) {
       throw new Error('Error while accepting a pickup');
     }
