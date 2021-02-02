@@ -65,7 +65,7 @@ const itemSchema = new mongoose.Schema(
       trim: true,
       required: 'Item condition required',
     },
-    itemTag: {
+    tag: {
       type: String,
       trim: true,
       required: 'Item tag required',
