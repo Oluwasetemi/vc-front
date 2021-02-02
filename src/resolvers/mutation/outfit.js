@@ -150,7 +150,7 @@ const outfitMutation = {
 
       const updatedOutfit = await updateOutfit({_id: id}, {liked: true});
 
-      return {message: `Outfit liked successfully`};
+      return updatedOutfit;
     } catch (error) {
       console.error(error.message);
       throw new Error(error.message || 'Error while adding item to an outfit');
@@ -165,7 +165,7 @@ const outfitMutation = {
 
       const updatedOutfit = await updateOutfit({_id: id}, {liked: false});
 
-      return {message: `Outfit unliked successfully`};
+      return updatedOutfit;
     } catch (error) {
       console.error(error.message);
       throw new Error(error.message || 'Error while adding item to an outfit');

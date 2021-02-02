@@ -362,6 +362,7 @@ const typeDefs = gql`
     brand: String
     itemCondition: String
     pickupId: String
+    tag: String
     image: String
     largeImage: String
   }
@@ -709,7 +710,7 @@ const typeDefs = gql`
     """
     sendOut a pickup request (admin)
     """
-    sendOutRequest(id: ID): Message!
+    sendOutRequest(id: ID): Request!
     """
     confirm a pickup request (admin)
     """
@@ -761,11 +762,11 @@ const typeDefs = gql`
     """
     like an outfit
     """
-    likeAnOutfit(id: ID): Message!
+    likeAnOutfit(id: ID): Outfit!
     """
     unlike an outfit
     """
-    unlikeAnOutfit(id: ID): Message!
+    unlikeAnOutfit(id: ID): Outfit!
   }
 
   type Subscription {
