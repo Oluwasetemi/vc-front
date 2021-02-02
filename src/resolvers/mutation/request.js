@@ -267,7 +267,7 @@ const requestMutation = {
         return requestToBeUpdated;
       }
 
-      return {message: 'Pickup Request sent out successfully'};
+      return requestToBeUpdated;
     } catch (error) {
       throw new Error('Error while accepting a pickup');
     }

@@ -65,6 +65,11 @@ const itemSchema = new mongoose.Schema(
       trim: true,
       required: 'Item condition required',
     },
+    itemTag: {
+      type: String,
+      trim: true,
+      required: 'Item tag required',
+    },
     stat: {
       type: mongoose.Schema.Types.Mixed,
     },
