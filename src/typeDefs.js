@@ -86,10 +86,6 @@ const typeDefs = gql`
     updatedAt: DateTime
   }
 
-  type Report {
-    _empty: String
-  }
-
   type Outfit {
     _id: String
     name: String
@@ -105,8 +101,11 @@ const typeDefs = gql`
     updatedAt: DateTime
   }
 
-  type ItemStat {
-    _empty: String
+  type Stat {
+    numberOfItems: String
+    dresses: String
+    accessories: String
+    shoes: String
   }
 
   type Meta {
@@ -130,6 +129,20 @@ const typeDefs = gql`
     updatedAt: DateTime
   }
 
+  type Report {
+    _id: String
+    numberOfItems: Int
+    type: String
+    items: [Item]
+    user: User
+    datetimePicked: DateTime
+    stat: Stat
+    catalogueItems: Boolean
+    returnDate: DateTime
+    createdAt: DateTime
+    updatedAt: DateTime
+  }
+
   type RequestWithPaginationSortingFiltering {
     total: Int
     data: [Request!]!
@@ -143,6 +156,11 @@ const typeDefs = gql`
   type StylistWithPaginationSortingFiltering {
     total: Int
     data: [Stylist!]!
+  }
+
+  type ReportWithPaginationSortingFiltering {
+    total: Int
+    data: [Report!]!
   }
 
   type Booking {
@@ -179,6 +197,10 @@ const typeDefs = gql`
   }
 
   type Vault {
+    _empty: String
+  }
+
+  type ItemStat {
     _empty: String
   }
 
@@ -477,9 +499,29 @@ const typeDefs = gql`
       sortBy: SortableRequestField = createdAt
     ): RequestWithPaginationSortingFiltering
     """
+    Fetch all user's report to include sorting and pagination
+    """
+    fetchAllUserReport(
+      userId: ID!
+      first: Int = 50
+      start: Int = 0
+      sort: SortDirection = descending
+      sortBy: SortableRequestField = createdAt
+    ): ReportWithPaginationSortingFiltering
+    """
     Fetch all outfit to include sorting and pagination
     """
     fetchAllOutfit(
+      first: Int = 50
+      start: Int = 0
+      sort: SortDirection = descending
+      sortBy: SortableRequestField = createdAt
+    ): OutfitWithPaginationSortingFiltering
+    """
+    Fetch user outfit to include sorting and pagination
+    """
+    fetchAllUserOutfit(
+      userId: ID!
       first: Int = 50
       start: Int = 0
       sort: SortDirection = descending
@@ -515,6 +557,10 @@ const typeDefs = gql`
     Fetch one booking
     """
     fetchOneBooking(id: ID!): Booking!
+    """
+    Fetch one report
+    """
+    fetchOneReport(id: ID!): Report!
     """
     Fetch one outfit
     """

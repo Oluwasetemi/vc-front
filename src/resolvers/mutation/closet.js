@@ -1,8 +1,10 @@
+/* eslint-disable no-shadow */
 import {
   createCloset,
   findClosetById,
   updateCloset,
 } from '../../services/closet';
+import {createReport} from '../../services/report';
 import {findRequestById} from '../../services/request';
 import {findUserById, updateUser} from '../../services/user';
 
@@ -50,10 +52,35 @@ const closetMutation = {
           },
         );
 
+        // filter out the dresses
+        const dresses = 0;
+        // filter out the accessories
+        const accessories = 0;
+        // filter out the shoes
+        const shoes = 0;
+
+        // generate report
+        const createdReport = await createReport({
+          numberOfItems: updatedCloset.numberOfItems,
+          items: updatedCloset.items,
+          user: updatedCloset.user,
+          datetimePicked: updatedCloset.datetimePicked,
+          stat: {
+            numberOfItems: updatedCloset.numberOfItems,
+            accessories,
+            dresses,
+            shoes,
+          },
+          condition: 'good',
+        });
+
         // update the current user
         await updateUser(
           {_id: input.userId},
-          {currentClosetSize: updatedCloset.itemsIn},
+          {
+            currentClosetSize: updatedCloset.itemsIn,
+            $push: {reports: createdReport._id},
+          },
         );
 
         return {
@@ -68,10 +95,36 @@ const closetMutation = {
         itemsIn: input.items.length,
       });
 
+      //filter out the dresses
+      const dresses = 0;
+      // filter out the accessories
+      const accessories = 0;
+      // filter out the shoes
+      const shoes = 0;
+
+      // generate report
+      const createdReport = await createReport({
+        numberOfItems: createdCloset.numberOfItems,
+        items: createdCloset.items,
+        user: createdCloset.user,
+        datetimePicked: createdCloset.datetimePicked,
+        stat: {
+          numberOfItems: createdCloset.numberOfItems,
+          accessories,
+          dresses,
+          shoes,
+        },
+        condition: 'good',
+      });
+
       // add the created closet to the user
       await updateUser(
         {_id: input.userId},
-        {closet: createdCloset._id, currentClosetSize: createdCloset.itemsIn},
+        {
+          closet: createdCloset._id,
+          currentClosetSize: createdCloset.itemsIn,
+          $push: {reports: createdReport._id},
+        },
       );
 
       return {
