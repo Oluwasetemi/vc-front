@@ -29,7 +29,7 @@ mutation mutation_mutation_re474 {
 }
 
 mutation mutation_mutation_re303 {
-  logIn(email: "virtual-closet@mailinator.com", password: "123456") {
+  logIn(email: "dev@virtual-closets.com", password: "123456") {
     message
     token
   }
@@ -104,6 +104,13 @@ query mutation_mutation_re679 {
       stripePriceId
     }
     stripeSubscriptionId
+    closet {
+      _id
+      items {
+        _id
+        name
+      }
+    }
   }
 }
 
@@ -355,11 +362,12 @@ mutation mutation_mutation_re570 {
     id: "5ffe5799b67608a8beae133e"
     token: "tok_1IAGIxAj70kkGLpJf2i3174M"
   ) {
-    message
+    _id
+    name
   }
 }
 
-query mutation_mutation_re330 {
+query mutation_mutation_re3301 {
   users {
     _id
     name
@@ -427,17 +435,17 @@ mutation mutation_mutation_re610 {
 }
 
 mutation mutation_mutation_re690 {
-  acceptPickupRequest(
+  acceptRequest(
     id: "60083dcfae225e2b84841456"
     bookingId: "2a9bd2a0-7119-4f4a-99ae-cef525fdf4c2"
   ) {
-    message
+    _id
   }
 }
 
 mutation mutation_mutation_re800 {
-  sendOutPickup(id: "60083dcfae225e2b84841456") {
-    message
+  sendOutRequest(id: "60083dcfae225e2b84841456") {
+    _id
   }
 }
 
@@ -637,7 +645,7 @@ query mutation_mutation_re699 {
 }
 
 query mutation_mutation_re133 {
-  fetchOneItem(id: "600cdd3a16be467d34594056") {
+  fetchOneItemMe(id: "600cdd3a16be467d34594056") {
     _id
     name
     material
@@ -659,7 +667,7 @@ query mutation_mutation_re133 {
 }
 
 query mutation_mutation_re888 {
-  fetchUserCloset {
+  fetchClosetMe {
     itemsIn
     itemsOut
     items {
@@ -673,7 +681,7 @@ query mutation_mutation_re888 {
 }
 
 query mutation_mutation_re526 {
-  fetchAllItem {
+  fetchAllItemMe {
     _id
     name
     material
@@ -966,13 +974,34 @@ mutation mutation_mutation_re678 {
 
 mutation mutation_mutation_re417 {
   likeAnOutfit(id: "600ef9f2a2a538af358bc964") {
-    message
+    _id
   }
 }
 
 mutation mutation_mutation_re730 {
   unlikeAnOutfit(id: "600ef9f2a2a538af358bc965") {
-    message
+    _id
   }
 }
+
+mutation mutation_mutation_re36 {
+  updateOneItemNameMe(
+    id: "600cdd3a16be467d34594056"
+    name: "TestItem updated"
+  ) {
+    _id
+    name
+    material
+    category
+    type
+    feature
+    color
+    brand
+    image
+    largeImage
+    createdAt
+    updatedAt
+  }
+}
+
 ```
