@@ -889,5 +889,72 @@ mutation mutation_mutation_re36 {
   }
 }
 
+query mutation_mutation_re881 {
+  fetchOneItemUser(id: "600cdd3a16be467d34594056", userId: "6002ff319c23052cf93d7b70") {
+    _id
+    name
+    material
+    category
+    type
+    feature
+    color
+    brand
+    image
+    largeImage
+    stat {
+      _empty
+    }
+    createdAt
+    updatedAt
+  }
+}
+
+query mutation_mutation_re823 {
+  fetchUserCloset(userId: "6002ff319c23052cf93d7b70") {
+    _id
+    itemsIn
+    itemsOut
+    items {
+      _id
+      name
+      material
+      category
+      type
+      feature
+      color
+      brand
+      image
+      largeImage
+      pickup {
+        datetimePicked
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+
+query mutation_mutation_re147 {
+  fetchAllItemUser(userId: "6002ff319c23052cf93d7b70") {
+    _id
+    name
+    material
+    category
+    type
+    feature
+    color
+    brand
+    image
+    largeImage
+    stat {
+      _empty
+    }
+    createdAt
+    updatedAt
+  }
+}
+
 
 ```

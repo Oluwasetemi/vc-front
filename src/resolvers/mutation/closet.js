@@ -22,7 +22,7 @@ const closetMutation = {
       }
 
       // pickup status checked must be active
-      const pickRequest = await findRequestById(input.items[0].pickupId);
+      const pickRequest = await findRequestById(input.items[0].pickup);
 
       if (pickRequest.status !== 'Active') {
         throw new Error('Request must be active before you can add a new Item');
@@ -64,7 +64,7 @@ const closetMutation = {
           numberOfItems: updatedCloset.numberOfItems,
           items: updatedCloset.items,
           user: updatedCloset.user,
-          datetimePicked: updatedCloset.datetimePicked,
+          datetimePicked: pickRequest.datetimePicked,
           stat: {
             numberOfItems: updatedCloset.numberOfItems,
             accessories,
@@ -107,7 +107,7 @@ const closetMutation = {
         numberOfItems: createdCloset.numberOfItems,
         items: createdCloset.items,
         user: createdCloset.user,
-        datetimePicked: createdCloset.datetimePicked,
+        datetimePicked: pickRequest.datetimePicked,
         stat: {
           numberOfItems: createdCloset.numberOfItems,
           accessories,

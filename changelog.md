@@ -57,3 +57,4 @@
 - Add new query `fetchAllItemUser`, `fetchOneItemUser`, `fetchUserCloset`.
 - Add new mutation to update the name of an outfit `updateOneItemNameMe`
 - Add new query `fetchAllOutfitMe` and `fetchAllOutfitUser`
+- change `pickupId` to `pickup` in `Items` object and `ItemInput`

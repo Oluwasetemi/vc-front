@@ -217,6 +217,7 @@ const typeDefs = gql`
     largeImage: String
     stat: ItemStat
     matchingOutfit: Outfit
+    pickup: Request
     createdAt: DateTime
     updatedAt: DateTime
   }
@@ -361,7 +362,7 @@ const typeDefs = gql`
     color: String
     brand: String
     itemCondition: String
-    pickupId: String
+    pickup: String
     tag: String
     image: String
     largeImage: String

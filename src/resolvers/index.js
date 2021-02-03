@@ -160,6 +160,18 @@ const resolvers = {
       return itemsDataObject;
     },
   },
+  Item: {
+    pickup: async (parent) => {
+      const pickupRequest = await findRequestById(parent.pickup);
+
+      if (!pickupRequest) {
+        // eslint-disable-next-line no-shadow
+        const pickupRequest = null;
+        return pickupRequest;
+      }
+      return pickupRequest;
+    },
+  },
 };
 
 export default resolvers;

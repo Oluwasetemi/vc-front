@@ -79,7 +79,7 @@ const itemSchema = new mongoose.Schema(
         ref: 'Outfit',
       },
     ],
-    pickupId: {
+    pickup: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Request',
     },
