@@ -571,17 +571,29 @@ const typeDefs = gql`
     """
     fetchOneStylist(id: ID!): Stylist!
     """
-    Fetch one item
+    Fetch one item (me)
     """
-    fetchOneItem(id: ID!): Item!
+    fetchOneItemMe(id: ID!): Item!
     """
-    Fetch user's closet
+    Fetch user's closet (me)
+    """
+    fetchClosetMe: Closet!
+    """
+    Fetch user's closet all items (me)
+    """
+    fetchAllItemMe: [Item]!
+    """
+    Fetch one item (me)
+    """
+    fetchOneItemUser(id: ID!): Item!
+    """
+    Fetch user's closet (me)
     """
     fetchUserCloset: Closet!
     """
-    Fetch user's closet all items
+    Fetch user's closet all items (me)
     """
-    fetchAllItem: [Item]!
+    fetchAllItemUser: [Item]!
     """
     Fetch admin's dashboard
     """
@@ -767,6 +779,10 @@ const typeDefs = gql`
     unlike an outfit
     """
     unlikeAnOutfit(id: ID): Outfit!
+    """
+    update one item from closet (me)
+    """
+    updateOneItemNameMe(id: ID, name: String): Item!
   }
 
   type Subscription {

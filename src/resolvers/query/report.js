@@ -9,10 +9,6 @@ const reportQueries = {
         throw new Error("You're not logged in");
       }
 
-      if (user.type !== 'ADMIN') {
-        throw new Error('You do not have the permission to do this');
-      }
-
       const query = {};
 
       if (args.type) {

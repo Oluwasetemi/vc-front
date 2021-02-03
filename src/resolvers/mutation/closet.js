@@ -137,6 +137,41 @@ const closetMutation = {
       throw new Error(error.message || 'Error while adding item to closet');
     }
   },
+  async updateOneItemNameMe(_, {id, name}, {user}) {
+    try {
+      // must be done by an admin
+      if (!user) {
+        throw new Error('You must be logged In');
+      }
+
+      if (!user.closet) {
+        throw new Error('Closet owner not found');
+      }
+
+      // find the user we want to add item to their closet
+      const closet = await findClosetById(user.closet);
+
+      if (!closet) {
+        throw new Error('Closet owner not found');
+      }
+
+      // const item = await fetchOneItem(id, closet._id);
+      const item = await closet.items.id(id);
+
+      if (!item) {
+        throw new Error('Item not found');
+      }
+
+      item.set({name: name});
+
+      const updatedCloset = await closet.save();
+
+      return item;
+    } catch (error) {
+      console.error(error.message);
+      throw new Error(error.message || 'Error while updating item in closet');
+    }
+  },
 };
 
 export default closetMutation;

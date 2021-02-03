@@ -50,3 +50,9 @@
 - add field `category` and `liked` to type `Outfit`. Create and input `OutfitInput` and created mutation `updateUserOutfitMutation`, `addItemToOutfit`, `likeAnOutfit` and `unlikeAnOutfit`.
 - Fix big on `makePayment` to return current subscription plan of the user.
 - 🐛 FIX: add tag field to itemInput and likeOutfit, unlikeOutfit return Outfit object and sendOutRequest return Request object
+
+## v0.1.9 Add new mutation and query
+
+- change `fetchAllItem` to `fectchAllItemMe`, `fetchOneItem` to `fetchClosetMe`, `fetchUserCloset` to `fetchClosetMe`.
+- Add new query `fetchAllItemUser`, `fetchOneItemUser`, `fetchUserCloset`.
+- Add new mutation to update the name of an outfit `updateOneItemNameMe`
