@@ -36,6 +36,24 @@ export const findAllOutfits = async (query = {}) => {
 
   return {outfit, total: total};
 };
+
+export const findAllOutfitsUser = async (query = {}) => {
+  const sortObject = {};
+  const limit = query.first;
+  const skip = query.start;
+  const user = query.userId;
+  if (query.sort && query.sortBy) {
+    sortObject[query.sortBy] = `${query.sort}`;
+  }
+  const outfit = await Outfit.find({user})
+    .limit(limit)
+    .skip(skip)
+    .sort(sortObject);
+  const total = await Outfit.countDocuments({user});
+
+  return {outfit, total: total};
+};
+
 export const removeOutfit = (id) => Outfit.findByIdAndRemove(id);
 
 export const updateOutfit = (query, data) =>

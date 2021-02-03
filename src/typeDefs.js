@@ -510,7 +510,7 @@ const typeDefs = gql`
       sortBy: SortableRequestField = createdAt
     ): ReportWithPaginationSortingFiltering
     """
-    Fetch all outfit to include sorting and pagination
+    Fetch all outfit to include sorting and pagination (admin)
     """
     fetchAllOutfit(
       first: Int = 50
@@ -519,10 +519,19 @@ const typeDefs = gql`
       sortBy: SortableRequestField = createdAt
     ): OutfitWithPaginationSortingFiltering
     """
-    Fetch user outfit to include sorting and pagination
+    Fetch user outfit to include sorting and pagination (admin) for a particular (user)
     """
-    fetchAllUserOutfit(
+    fetchAllOutfitUser(
       userId: ID!
+      first: Int = 50
+      start: Int = 0
+      sort: SortDirection = descending
+      sortBy: SortableRequestField = createdAt
+    ): OutfitWithPaginationSortingFiltering
+    """
+    Fetch (authenticated) user outfit
+    """
+    fetchAllOutfitMe(
       first: Int = 50
       start: Int = 0
       sort: SortDirection = descending
@@ -585,15 +594,15 @@ const typeDefs = gql`
     """
     Fetch one item (me)
     """
-    fetchOneItemUser(id: ID!): Item!
+    fetchOneItemUser(id: ID!, userId: ID!): Item!
     """
     Fetch user's closet (me)
     """
-    fetchUserCloset: Closet!
+    fetchUserCloset(userId: ID!): Closet!
     """
     Fetch user's closet all items (me)
     """
-    fetchAllItemUser: [Item]!
+    fetchAllItemUser(userId: ID!): [Item]!
     """
     Fetch admin's dashboard
     """

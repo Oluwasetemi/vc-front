@@ -56,3 +56,4 @@
 - change `fetchAllItem` to `fectchAllItemMe`, `fetchOneItem` to `fetchClosetMe`, `fetchUserCloset` to `fetchClosetMe`.
 - Add new query `fetchAllItemUser`, `fetchOneItemUser`, `fetchUserCloset`.
 - Add new mutation to update the name of an outfit `updateOneItemNameMe`
+- Add new query `fetchAllOutfitMe` and `fetchAllOutfitUser`

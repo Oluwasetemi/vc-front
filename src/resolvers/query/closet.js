@@ -122,7 +122,7 @@ const closetQueries = {
       throw new Error(error.message);
     }
   },
-  async fetchAllItemUser(_, {userId, id}, {user}) {
+  async fetchAllItemUser(_, {userId}, {user}) {
     try {
       // must be done by an admin
       if (!user || user === null) {
