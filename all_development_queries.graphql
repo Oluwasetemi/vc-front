@@ -108,6 +108,17 @@ query mutation_mutation_re679 {
         name
       }
     }
+    outfit {
+      _id
+      name
+      category
+      createdAt
+      updatedAt
+      user {
+        _id
+        name
+      }
+    }
   }
 }
 
@@ -699,8 +710,60 @@ query mutation_mutation_re526 {
   }
 }
 
-query mutation_mutation_re32 {
+query mutation_mutation_re3290 {
   fetchAllOutfit {
+    total
+    data {
+      _id
+      name
+      description
+      items {
+        _id
+        name
+      }
+      user {
+        _id
+        email
+      }
+      tags
+      recommendations {
+        type
+        note
+      }
+      createdAt
+      updatedAt
+    }
+  }
+}
+
+query mutation_mutation_re3299 {
+  fetchAllOutfitMe {
+    total
+    data {
+      _id
+      name
+      description
+      items {
+        _id
+        name
+      }
+      user {
+        _id
+        email
+      }
+      tags
+      recommendations {
+        type
+        note
+      }
+      createdAt
+      updatedAt
+    }
+  }
+}
+
+query mutation_mutation_re32 {
+  fetchAllOutfitUser(userId: "6002ff319c23052cf93d7b70") {
     total
     data {
       _id
@@ -983,8 +1046,8 @@ mutation mutation_mutation_re730 {
 
 mutation mutation_mutation_re36 {
   updateOneItemNameMe(
-    id: "600cdd3a16be467d34594056"
-    name: "TestItem updated"
+    id: "600ce2d31d25c77eb9117450"
+    name: "TestItem updated 2"
   ) {
     _id
     name
