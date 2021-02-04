@@ -48,7 +48,11 @@ export const findAllClosets = async (query = {}) => {
 export const removeCloset = (id) => Closet.findByIdAndRemove(id);
 
 export const updateCloset = (query, data) =>
-  Closet.findOneAndUpdate(query, data, {new: true, runValidators: true});
+  Closet.findOneAndUpdate(query, data, {
+    new: true,
+    runValidators: true,
+    timestamps: false,
+  });
 
 export const deleteCloset = (id) => Closet.deleteOne({_id: id});
 

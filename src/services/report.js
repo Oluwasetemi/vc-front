@@ -37,7 +37,7 @@ export const findAllReports = async (query = {}) => {
     .sort(sortObject);
   const total = await Report.countDocuments({user: query.userId});
 
-  return {report, total: total};
+  return {report, total};
 };
 export const removeReport = (id) => Report.findByIdAndRemove(id);
 

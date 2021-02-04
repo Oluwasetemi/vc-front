@@ -8,6 +8,16 @@ import {createReport} from '../../services/report';
 import {findRequestById} from '../../services/request';
 import {findUserById, updateUser} from '../../services/user';
 
+// get the id of the items added to closet
+function getIdOfItemsAddToCloset(closet, numberOfItems) {
+  const items = JSON.parse(JSON.stringify(closet.items));
+
+  // slice the last set of items added based on the number of items added
+  const newItems = items.slice(-numberOfItems).map((item) => item._id);
+
+  return newItems;
+}
+
 const closetMutation = {
   // subscription
   async addItemToCloset(_, {input}, {user}) {
@@ -21,11 +31,26 @@ const closetMutation = {
         throw new Error('You do not have the permission to do this');
       }
 
-      // pickup status checked must be active
-      const pickRequest = await findRequestById(input.items[0].pickup);
+      if (!input.items[0].pickup) {
+        throw new Error('pickup must be set along');
+      }
 
-      if (pickRequest.status !== 'Active') {
+      // pickup status checked must be active
+      const pickupRequest = await findRequestById(input.items[0].pickup);
+
+      if (!pickupRequest) {
+        throw new Error('Pick up not found');
+      }
+
+      if (pickupRequest.status !== 'Active') {
         throw new Error('Request must be active before you can add a new Item');
+      }
+
+      // check the number of items from pickup === input.items
+      if (pickupRequest.numberOfItems !== input.items.length) {
+        throw new Error(
+          'You must add equal number of items and the pickup request',
+        );
       }
 
       // find the user we want to add item to their closet
@@ -53,23 +78,34 @@ const closetMutation = {
         );
 
         // filter out the dresses
-        const dresses = 0;
+        const shirt =
+          input.items.filter((item) => item.type === 'Shirt').length || 0;
+        const dresses =
+          input.items.filter((item) => item.type === 'Dress').length || 0;
         // filter out the accessories
-        const accessories = 0;
+        const accessories =
+          input.items.filter((item) => item.type === 'Accessories').length || 0;
         // filter out the shoes
-        const shoes = 0;
+        const shoes =
+          input.items.filter((item) => item.type === 'Shoe').length || 0;
+
+        const resultItems = getIdOfItemsAddToCloset(
+          updatedCloset,
+          pickupRequest.numberOfItems,
+        );
 
         // generate report
         const createdReport = await createReport({
-          numberOfItems: updatedCloset.numberOfItems,
-          items: updatedCloset.items,
-          user: updatedCloset.user,
-          datetimePicked: pickRequest.datetimePicked,
+          numberOfItems: pickupRequest.numberOfItems,
+          items: resultItems,
+          user: input.userId,
+          datetimePicked: pickupRequest.datetimePicked,
           stat: {
-            numberOfItems: updatedCloset.numberOfItems,
+            numberOfItems: pickupRequest.numberOfItems,
             accessories,
             dresses,
             shoes,
+            shirt,
           },
           condition: 'good',
         });
@@ -95,24 +131,35 @@ const closetMutation = {
         itemsIn: input.items.length,
       });
 
-      //filter out the dresses
-      const dresses = 0;
+      // filter out the dresses
+      const shirt =
+        input.items.filter((item) => item.type === 'Shirt').length || 0;
+      const dresses =
+        input.items.filter((item) => item.type === 'Dress').length || 0;
       // filter out the accessories
-      const accessories = 0;
+      const accessories =
+        input.items.filter((item) => item.type === 'Accessories').length || 0;
       // filter out the shoes
-      const shoes = 0;
+      const shoes =
+        input.items.filter((item) => item.type === 'Shoe').length || 0;
+
+      const resultItems = getIdOfItemsAddToCloset(
+        createdCloset,
+        pickupRequest.numberOfItems,
+      );
 
       // generate report
       const createdReport = await createReport({
-        numberOfItems: createdCloset.numberOfItems,
-        items: createdCloset.items,
-        user: createdCloset.user,
-        datetimePicked: pickRequest.datetimePicked,
+        numberOfItems: pickupRequest.numberOfItems,
+        items: resultItems,
+        user: input.userId,
+        datetimePicked: pickupRequest.datetimePicked,
         stat: {
-          numberOfItems: createdCloset.numberOfItems,
+          numberOfItems: pickupRequest.numberOfItems,
           accessories,
           dresses,
           shoes,
+          shirt,
         },
         condition: 'good',
       });

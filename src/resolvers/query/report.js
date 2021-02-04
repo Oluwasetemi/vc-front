@@ -19,7 +19,7 @@ const reportQueries = {
         query.first = args.first;
       }
 
-      if (args.start) {
+      if (args.start || args.start === 0) {
         query.start = args.start;
       }
 
@@ -31,9 +31,7 @@ const reportQueries = {
         query.sortBy = args.sortBy;
       }
 
-      if (args.userId) {
-        query.userId = args.userId;
-      }
+      query.userId = user._id.toString();
 
       const {report, total} = await findAllReports(query);
 

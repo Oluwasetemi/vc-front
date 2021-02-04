@@ -24,7 +24,7 @@ const reportSchema = new mongoose.Schema(
     datetimePicked: {type: String},
     // no of items,Accessories, Dresses, Shoes
     // remove shirts and pants
-    stats: {
+    stat: {
       type: mongoose.Schema.Types.Mixed,
     },
     condition: {
