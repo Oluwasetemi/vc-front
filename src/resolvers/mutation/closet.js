@@ -69,6 +69,12 @@ const closetMutation = {
           throw new Error('closet not found');
         }
 
+        // loop thru items and add updateAt and createdAt
+        for (const item of input.items) {
+          item.createdAt = new Date();
+          item.updatedAt = new Date();
+        }
+
         const updatedCloset = await updateCloset(
           {_id: myCloset._id},
           {
@@ -124,6 +130,12 @@ const closetMutation = {
             input && input.items && input.items.length
           } Items added successfully`,
         };
+      }
+
+      // loop thru items and add updateAt and createdAt
+      for (const item of input.items) {
+        item.createdAt = new Date();
+        item.updatedAt = new Date();
       }
 
       const createdCloset = await createCloset({
