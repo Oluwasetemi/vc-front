@@ -70,7 +70,7 @@ const resolvers = {
       return outfitDataObject;
     },
     reports: async (parent) => {
-      const reportList = JSON.parse(JSON.stringify(parent.report));
+      const reportList = JSON.parse(JSON.stringify(parent.reports));
 
       const reportDataObject = [];
       for (const each of reportList) {

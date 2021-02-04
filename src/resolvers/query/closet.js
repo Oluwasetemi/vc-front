@@ -43,7 +43,7 @@ const closetQueries = {
       throw new Error(error.message);
     }
   },
-  async fetchAllItemMe(_, {id}, {user}) {
+  async fetchAllItemMe(_, args, {user}) {
     try {
       // must be done by an admin
       if (!user || user === null) {

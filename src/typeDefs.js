@@ -102,10 +102,11 @@ const typeDefs = gql`
   }
 
   type Stat {
-    numberOfItems: String
-    dresses: String
-    accessories: String
-    shoes: String
+    numberOfItems: Int
+    dresses: Int
+    accessories: Int
+    shoes: Int
+    shirt: Int
   }
 
   type Meta {
@@ -213,6 +214,7 @@ const typeDefs = gql`
     feature: String
     color: String
     brand: String
+    tag: String
     image: String
     largeImage: String
     stat: ItemStat
@@ -362,15 +364,15 @@ const typeDefs = gql`
     color: String
     brand: String
     itemCondition: String
-    pickup: String
+    pickup: String!
     tag: String
     image: String
     largeImage: String
   }
 
   input addItemInput {
-    items: [itemInput]
-    userId: String
+    items: [itemInput!]!
+    userId: String!
   }
 
   input stylistInput {
@@ -504,7 +506,6 @@ const typeDefs = gql`
     Fetch all user's report to include sorting and pagination
     """
     fetchAllUserReport(
-      userId: ID!
       first: Int = 50
       start: Int = 0
       sort: SortDirection = descending

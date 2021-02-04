@@ -27,7 +27,7 @@ const outfitQueries = {
         query.first = args.first;
       }
 
-      if (args.start) {
+      if (args.start || args.start === 0) {
         query.start = args.start;
       }
 
@@ -78,7 +78,7 @@ const outfitQueries = {
         query.first = args.first;
       }
 
-      if (args.start) {
+      if (args.start || args.start === 0) {
         query.start = args.start;
       }
 
@@ -129,7 +129,7 @@ const outfitQueries = {
         query.first = args.first;
       }
 
-      if (args.start) {
+      if (args.start || args.start === 0) {
         query.start = args.start;
       }
 

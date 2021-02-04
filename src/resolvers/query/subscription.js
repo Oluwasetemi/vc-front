@@ -102,6 +102,7 @@ const subscriptionQueries = {
 
       return finalResult;
     } catch (error) {
+      console.log(error.message);
       throw new Error('Server error while fetching payments');
     }
   },
