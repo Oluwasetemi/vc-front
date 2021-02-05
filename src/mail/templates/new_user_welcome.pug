@@ -1,0 +1,15 @@
+extends email-layout
+
+block content
+  h2 Welcome to Virtual Closet
+  p Hello #{email.split('@')[0]}!
+  br
+  p Welcome to Virtual Closet.
+
+  p here is your otp : #{otp}
+
+  p OTP expires in 5 minutes.
+  p Don't forget to store your password safely.
+  br
+  p If you didn't request this email, please ignore it.
+  p Virtual Closet

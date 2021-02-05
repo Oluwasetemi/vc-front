@@ -3,7 +3,7 @@
  * @param {float} poundsValue takes in a value in pounds(lbs)
  * @return {float} Returns single value in kgs
  */
-function poundsToKg(poundsValue) {
+export function poundsToKg(poundsValue) {
   return (parseFloat(poundsValue) * 0.45359237).toPrecision(4);
 }
 
@@ -12,7 +12,7 @@ function poundsToKg(poundsValue) {
  * @param {float} kgValue takes in a value in kilogram (kg)
  * @return {float} Returns single value in pounds
  */
-function kgToPounds(kgValue) {
+export function kgToPounds(kgValue) {
   return (parseFloat(kgValue) * 2.2046226218).toPrecision(4);
 }
 
@@ -22,7 +22,7 @@ function kgToPounds(kgValue) {
  * @param {float} inchValue takes in a values (inches)
  * @return {float} height in cm
  */
-function feetInchesToCm([feetValue, inchValue]) {
+export function feetInchesToCm([feetValue, inchValue]) {
   const newFootValue = parseFloat(feetValue) * 30.48;
   const newInchValue = parseFloat(inchValue) * 2.54;
   return (newFootValue + newInchValue).toPrecision(4);
@@ -33,7 +33,7 @@ function feetInchesToCm([feetValue, inchValue]) {
  * @param {float} cmValue takes in a value in centimeters (cm)
  * @return {float} Returns single value in meters
  */
-function cmToMeters(cmValue) {
+export function cmToMeters(cmValue) {
   const result = parseFloat(cmValue) / 100.0;
   return result.toPrecision(3);
 }
@@ -44,7 +44,7 @@ function cmToMeters(cmValue) {
  * @param {float} height takes in a value in meters (kg)
  * @return {Object} Returns bmi and rating value ie. Overweight, Underweight.
  */
-function calculateBMI(weight, height) {
+export function calculateBMI(weight, height) {
   const bmi = parseFloat(weight) / parseFloat(height) ** 2;
   const ratingsMsg =
     'Less than 18.5 = Underweight; Between 18.5 - 24.9 = Healthy Weight; Between 25 - 29.9 = Overweight; Over 30 = Obese';
@@ -65,10 +65,10 @@ function calculateBMI(weight, height) {
   return {bmi: bmi.toPrecision(3), rating, ratingsMsg};
 }
 
-const toCamelCase = (str) =>
+export const toCamelCase = (str) =>
   str.trim().replace(/[-_\s]+(.)?/g, (_, c) => (c ? c.toUpperCase() : ''));
 
-function clean(obj) {
+export function clean(obj) {
   Object.keys(obj).forEach((key) => {
     if (Object.prototype.toString.call(obj[key])) {
       if (obj[key] === null || obj[key] === undefined) {
@@ -77,13 +77,3 @@ function clean(obj) {
     }
   });
 }
-
-module.exports = {
-  poundsToKg,
-  kgToPounds,
-  feetInchesToCm,
-  cmToMeters,
-  calculateBMI,
-  toCamelCase,
-  clean,
-};

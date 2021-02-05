@@ -1,8 +1,9 @@
 // all the subscription
 const subscription = {
-  newGreetings: {
+  newRequest: {
     subscribe: (parent, args, {pubsub}) =>
-      pubsub.asyncIterator('new-greetings'),
+      // console.log(pubsub);
+      pubsub.asyncIterator('new-request'),
   },
 };
 
