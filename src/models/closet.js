@@ -53,17 +53,14 @@ const itemSchema = new mongoose.Schema(
     color: {
       type: String,
       trim: true,
-      // required: 'Item color required',
     },
     brand: {
       type: String,
       trim: true,
-      // required: 'Item brand required',
     },
     itemCondition: {
       type: String,
       trim: true,
-      // required: 'Item condition required',
     },
     tag: {
       type: String,
