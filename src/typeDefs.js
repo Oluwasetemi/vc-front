@@ -112,6 +112,11 @@ const typeDefs = gql`
   type Meta {
     type: String
     note: String
+    numberOfItems: Int
+    dresses: Int
+    accessories: Int
+    shoes: Int
+    shirt: Int
   }
 
   type Request {
@@ -180,6 +185,7 @@ const typeDefs = gql`
     itemsIn: Int
     itemsOut: Int
     items: [Item!]!
+    itemsClassification: Stat
     createdAt: DateTime
     updatedAt: DateTime
   }
@@ -261,6 +267,10 @@ const typeDefs = gql`
     currentPeriodEnd: String
   }
 
+  # change all the string here to INT
+  """
+  To be deprecated
+  """
   type SubscriptionService {
     storage: Int
     accessories: String
@@ -268,6 +278,16 @@ const typeDefs = gql`
     helpMePack: String
     stylist: String
     vault: String
+    note: String
+  }
+
+  type SubscriptionServiceNew {
+    storage: Int
+    accessories: Int
+    shoes: Int
+    helpMePack: Int
+    stylist: Int
+    vault: Int
     note: String
   }
 
@@ -404,7 +424,7 @@ const typeDefs = gql`
     "if request type is pickup and the user just want her items cataloged"
     catalogueItems: Boolean
     "if request type is pickup and the user just want her items cataloged, the date the item will be returned to user"
-    returnDate: Boolean
+    returnDate: DateTime
   }
 
   input updateRequestInput {
