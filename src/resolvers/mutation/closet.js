@@ -9,13 +9,26 @@ import {findRequestById} from '../../services/request';
 import {findUserById, updateUser} from '../../services/user';
 
 // get the id of the items added to closet
-function getIdOfItemsAddToCloset(closet, numberOfItems) {
+export function getIdOfItemsAddToCloset(closet, numberOfItems) {
   const items = JSON.parse(JSON.stringify(closet.items));
 
   // slice the last set of items added based on the number of items added
   const newItems = items.slice(-numberOfItems).map((item) => item._id);
 
   return newItems;
+}
+
+export function classifyItems(items) {
+  // filter out the dresses
+  const shirt = items.filter((item) => item.type === 'Shirt').length || 0;
+  const dresses = items.filter((item) => item.type === 'Dress').length || 0;
+  // filter out the accessories
+  const accessories =
+    items.filter((item) => item.type === 'Accessories').length || 0;
+  // filter out the shoes
+  const shoes = items.filter((item) => item.type === 'Shoe').length || 0;
+
+  return {dresses, accessories, shoes, shirt};
 }
 
 const closetMutation = {
@@ -46,15 +59,20 @@ const closetMutation = {
         throw new Error('Request must be active before you can add a new Item');
       }
 
+      // find the user we want to add item to their closet
+      const closetOwner = await findUserById(input.userId);
+
+      // check if the user's subscription plan and closet capacity for
+      // Storage (Dress + Shirts) Clothing Items,
+      // Accessories
+      // shoes
+
       // check the number of items from pickup === input.items
       if (pickupRequest.numberOfItems !== input.items.length) {
         throw new Error(
           'You must add equal number of items and the pickup request',
         );
       }
-
-      // find the user we want to add item to their closet
-      const closetOwner = await findUserById(input.userId);
 
       if (!closetOwner) {
         throw new Error('Closet owner not found');
@@ -83,17 +101,7 @@ const closetMutation = {
           },
         );
 
-        // filter out the dresses
-        const shirt =
-          input.items.filter((item) => item.type === 'Shirt').length || 0;
-        const dresses =
-          input.items.filter((item) => item.type === 'Dress').length || 0;
-        // filter out the accessories
-        const accessories =
-          input.items.filter((item) => item.type === 'Accessories').length || 0;
-        // filter out the shoes
-        const shoes =
-          input.items.filter((item) => item.type === 'Shoe').length || 0;
+        const {dresses, shirt, accessories, shoes} = classifyItems(input.items);
 
         const resultItems = getIdOfItemsAddToCloset(
           updatedCloset,
