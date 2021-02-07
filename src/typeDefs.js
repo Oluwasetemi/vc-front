@@ -131,6 +131,8 @@ const typeDefs = gql`
     contactPhoneNumber: String
     status: String
     metaData: Meta
+    catalogueItems: Boolean
+    returnDate: DateTime
     createdAt: DateTime
     updatedAt: DateTime
   }

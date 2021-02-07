@@ -111,6 +111,18 @@ const resolvers = {
       }
       return location;
     },
+    items: async (parent) => {
+      //  filter out the array of request_id and try to populate it
+      const itemsList = JSON.parse(JSON.stringify(parent.items));
+      const user = await findUserById(parent.user);
+      const itemsDataObject = [];
+      for (const each of itemsList) {
+        const eachItem =
+          (await fetchOneItem(each, user.closet.toString())) || [];
+        itemsDataObject.push(JSON.parse(JSON.stringify(eachItem)));
+      }
+      return itemsDataObject;
+    },
   },
   Outfit: {
     user: async (parent) => {
