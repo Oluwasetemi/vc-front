@@ -769,9 +769,10 @@ const typeDefs = gql`
     """
     createOutfit(
       items: [String]
-      name: String
+      name: String!
       description: String
       userId: String
+      category: String!
       tags: [String]
     ): Message!
     """
