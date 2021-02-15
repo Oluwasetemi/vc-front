@@ -20,6 +20,7 @@ const outfitMutation = {
 
       const createdOutfit = await createOutfit({
         name: args.name,
+        category: args.category,
         description: args.description,
         items: args.items,
         user: args.userId,
