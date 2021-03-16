@@ -1,6 +1,10 @@
 /* eslint-disable */
 import {altairExpress} from 'altair-express-middleware';
-import {ApolloServer, PubSub} from 'apollo-server-express';
+import {
+  ApolloServer,
+  makeExecutableSchema,
+  PubSub,
+} from 'apollo-server-express';
 import cors from 'cors';
 import express from 'express';
 import {readFileSync} from 'fs';
@@ -45,9 +49,13 @@ async function startServer() {
 
     // Send it an object with typeDefs(the schema) and resolvers
     const pubsub = new PubSub();
-    const server = new ApolloServer({
+    const schema = makeExecutableSchema({
       typeDefs,
       resolvers,
+      resolverValidationOptions: {requireResolversForResolveType: false},
+    });
+    const server = new ApolloServer({
+      schema,
       introspection: true,
       async context({req, connection}) {
         const context = {stripe};
