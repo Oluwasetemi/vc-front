@@ -13,6 +13,16 @@ import Subscription from './subscription';
 const resolvers = {
   Date: GraphQLDate,
   DateTime: GraphQLDateTime,
+  RequestWithMessage: {
+    __resolveType(obj) {
+      if (obj.message) {
+        return 'Message';
+      } else {
+        return 'Request';
+      }
+      // return null;
+    },
+  },
   Query,
   Mutation,
   Subscription,

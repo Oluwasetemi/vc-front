@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {send} from '../../mail/mail';
 import {findLocationById} from '../../services/location';
 import {
   createRequest,
@@ -20,6 +21,34 @@ const requestMutation = {
 
       if (!user.currentSubscriptionPlan) {
         throw new Error('You do not have a current subscription plan');
+      }
+
+      // handle request that is not pickup or delivery
+      if (input.type !== 'Pickup' || input.type !== 'Delivery') {
+        // send email to the client initiating the request and send message to admin as well.
+        // user
+        await send({
+          filename: 'request-user',
+          to: user.email,
+          subject: 'You created a Request',
+          email: user.email,
+          name: user.email.split('@')[0],
+        });
+        // vc admin
+        await send({
+          filename: 'request-admin',
+          to: process.env.VIRTUAL_CLOSET_ADMIN_EMAIL,
+          subject: `Request of type ${input.type}`,
+          email: user.email,
+          request: {
+            type: input.type,
+          },
+        });
+
+        return {
+          message:
+            'Request Type is not yet available. Email notification sent successfully ',
+        };
       }
 
       // check number of items from the users currentSubscriptionPlan
