@@ -73,6 +73,8 @@ const typeDefs = gql`
     message: String
   }
 
+  union RequestWithMessage = Request | Message
+
   type MessageWithToken {
     message: String
     token: String
@@ -736,7 +738,7 @@ const typeDefs = gql`
     """
     create a request
     """
-    createRequestMutation(input: createRequestInput): Request!
+    createRequestMutation(input: createRequestInput): RequestWithMessage
     """
     update a request
     """

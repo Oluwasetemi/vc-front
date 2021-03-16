@@ -1,0 +1,15 @@
+extends email-layout
+
+block content
+  h2 #{request.type} Request
+  p Hello Admin!
+  br
+  p Welcome to Virtual Closet.
+
+  p A user with email #{email} made a request of type: #{request.type}, on their virtual closets app.
+
+  p the details of the request
+  p
+  br
+  p If you didn't request this email, please ignore it.
+  p Virtual Closet

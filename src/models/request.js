@@ -33,7 +33,7 @@ const requestSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['Active', 'Confirmed', 'UnConfirmed', 'Pending'],
+      enum: ['Active', 'Confirmed', 'UnConfirmed', 'Pending', 'Finished'],
       default: 'UnConfirmed',
     },
     catalogueItems: {
